@@ -39,7 +39,7 @@ let videosData: VideoType[] | null = [{
     availableResolutions: ['144', '240']
 },
     {
-        id: 1,
+        id: 2,
         title: 'Exercise',
         author: 'me',
         canBeDownloaded: false,

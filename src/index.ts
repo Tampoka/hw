@@ -9,9 +9,9 @@ const port = process.env.PORT || 3015
 app.use(express.json());
 
 app.use('/videos', videosRouter)
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello back-end HomeWorks in it-incubator!!!')
-})
+// app.get('/', (req: Request, res: Response) => {
+//     res.send('Hello back-end HomeWorks in it-incubator!!!')
+// })
 
 app.delete('/testing/all-data', async (req: Request, res: Response) => {
     await videosRepo.deleteAll()
