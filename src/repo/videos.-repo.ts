@@ -57,19 +57,18 @@ export const videosRepo = {
         return videosData.find(el => el.id === id)
     },
     createVideo(title: string, author: string, resolution: ResolutionsType) {
-        {
-            const newVideo = {
-                id: Date.now(),
-                title,
-                author,
-                canBeDownloaded: false,
-                minAgeRestriction: null,
-                createdAt: new Date().toISOString(),
-                publicationDate: new Date().toISOString(),
-                availableResolutions: resolution
-            }
-            return newVideo
+        const newVideo = {
+            id: Date.now(),
+            title,
+            author,
+            canBeDownloaded: false,
+            minAgeRestriction: null,
+            createdAt: new Date().toISOString(),
+            publicationDate: new Date().toISOString(),
+            availableResolutions: resolution
         }
+        videosData.push(newVideo)
+        return newVideo
     },
     updateVideo(id: number, valuesToUpdate: VideoUpdateType) {
         const video = videosData.find(el => el.id === id)

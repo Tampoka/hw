@@ -1,9 +1,10 @@
-import express, {Request, Response} from 'express'
+import express from 'express'
 import {videosRouter} from './routes/videos-router';
 
 const app = express()
 const port = process.env.PORT || 3015
-app.use(express.urlencoded({extended: true}));
+
+app.use(express.json());
 
 app.use('/videos', videosRouter)
 

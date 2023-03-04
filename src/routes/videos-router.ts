@@ -42,6 +42,7 @@ videosRouter.delete('/:id', (req: Request, res: Response) => {
     }
 })
 videosRouter.post('/', (req: Request, res: Response) => {
+    console.log(req.body)
     const errors: ErrorsType = {
         'errorsMessages': []
     }
