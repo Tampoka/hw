@@ -48,11 +48,9 @@ videosRouter.post('/', (req: Request, res: Response) => {
     }
     if (!req.body.title) {
         errors.errorsMessages.push({message: 'Title is required', field: 'title'})
-        return res.status(400).send(errors)
     }
     if (!req.body.author) {
         errors.errorsMessages.push({message: 'Author is required', field: 'author'})
-        return res.status(400).send(errors)
     }
     if (!req.body.availableResolutions) {
         errors.errorsMessages.push({
