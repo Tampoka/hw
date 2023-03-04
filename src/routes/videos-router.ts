@@ -1,5 +1,5 @@
 import {Request, Response, Router} from 'express';
-import {Resolutions, ResolutionsType, videosRepo} from '../repo/videos.-repo';
+import {Resolutions,  videosRepo} from '../repo/videos.-repo';
 import {type} from 'os';
 
 export const videosRouter = Router({})
