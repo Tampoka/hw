@@ -12,10 +12,6 @@ type ErrorsType = {
     'errorsMessages': ErrorType[]
 }
 
-// const errors: ErrorsType = {
-//     'errorsMessages': []
-// }
-
 videosRouter.get('/', (req: Request, res: Response) => {
     const result = videosRepo.findVideos()
     if (result) {
