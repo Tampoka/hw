@@ -88,6 +88,12 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
             field: 'minAgeRestriction'
         })
     }
+    if (typeof valuesToUpdate.publicationDate !== 'string') {
+        errors.errorsMessages.push({
+            message: 'publicationDate is required',
+            field: 'publicationDate'
+        })
+    }
     if (typeof valuesToUpdate.canBeDownloaded != 'boolean' || null) {
         errors.errorsMessages.push({
             message: 'canBeDownloaded is required',
