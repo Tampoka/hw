@@ -43,20 +43,20 @@ videosRouter.post('/', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         'errorsMessages': []
     }
-    if (!req.body.title || !req.body.author || !req.body.availableResolutions) {
-        if (!req.body.title||typeof req.body.title !== 'string' || req.body.title.length > 40) {
-            errors.errorsMessages.push({message: 'Title is required', field: 'title'})
-        }
-        if (!req.body.author||typeof req.body.author !== 'string' || req.body.author.length > 40) {
-            errors.errorsMessages.push({message: 'Author is required', field: 'author'})
-        }
-        if (!req.body.availableResolutions||!req.body.availableResolutions.length) {
-            errors.errorsMessages.push({
-                message: 'Resolution is required',
-                field: 'availableResolutions'
-            })
-            res.status(400).send(errors)
-        }
+    if (!req.body.title || typeof req.body.title !== 'string' || req.body.title.length > 40) {
+        errors.errorsMessages.push({message: 'Title is required', field: 'title'})
+    }
+    if (!req.body.author || typeof req.body.author !== 'string' || req.body.author.length > 40) {
+        errors.errorsMessages.push({message: 'Author is required', field: 'author'})
+    }
+    if (!req.body.availableResolutions || !req.body.availableResolutions.length) {
+        errors.errorsMessages.push({
+            message: 'Resolution is required',
+            field: 'availableResolutions'
+        })
+    }
+    if (errors.errorsMessages.length) {
+        res.status(400).send(errors)
     } else {
         const result = videosRepo.createVideo(req.body.title, req.body.author, req.body.availableResolutions)
         res.status(201).send(result)
@@ -70,37 +70,37 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         'errorsMessages': []
     }
-    if (!valuesToUpdate.title || !valuesToUpdate.author || !valuesToUpdate.availableResolutions || !valuesToUpdate.minAgeRestriction || !valuesToUpdate.publicationDate) {
-        if (!valuesToUpdate.title || typeof valuesToUpdate.title !== 'string' || valuesToUpdate.title.length > 40) {
-            errors.errorsMessages.push({message: 'Title is required', field: 'title'})
-        }
-        if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string' || valuesToUpdate.author.trim().length > 40) {
-            errors.errorsMessages.push({message: 'Author is required', field: 'author'})
-        }
-        if (!valuesToUpdate.availableResolutions || !valuesToUpdate.availableResolutions.length) {
-            errors.errorsMessages.push({
-                message: 'AvailableResolutions is required',
-                field: 'availableResolutions'
-            })
-        }
-        if (valuesToUpdate.minAgeRestriction < 1 || valuesToUpdate.minAgeRestriction > 18) {
-            errors.errorsMessages.push({
-                message: 'minAgeRestriction is required',
-                field: 'minAgeRestriction'
-            })
-        }
-        if (!valuesToUpdate.publicationDate || typeof valuesToUpdate.publicationDate != 'string') {
-            errors.errorsMessages.push({
-                message: 'publicationDate is required',
-                field: 'publicationDate'
-            })
-        }
-        if (!valuesToUpdate.canBeDownloaded || typeof valuesToUpdate.publicationDate != 'boolean' || null) {
-            errors.errorsMessages.push({
-                message: 'canBeDownloaded is required',
-                field: 'canBeDownloaded'
-            })
-        }
+    if (!valuesToUpdate.title || typeof valuesToUpdate.title !== 'string' || valuesToUpdate.title.length > 40) {
+        errors.errorsMessages.push({message: 'Title is required', field: 'title'})
+    }
+    if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string' || valuesToUpdate.author.trim().length > 40) {
+        errors.errorsMessages.push({message: 'Author is required', field: 'author'})
+    }
+    if (!valuesToUpdate.availableResolutions || !valuesToUpdate.availableResolutions.length) {
+        errors.errorsMessages.push({
+            message: 'AvailableResolutions is required',
+            field: 'availableResolutions'
+        })
+    }
+    if (valuesToUpdate.minAgeRestriction < 1 || valuesToUpdate.minAgeRestriction > 18) {
+        errors.errorsMessages.push({
+            message: 'minAgeRestriction is required',
+            field: 'minAgeRestriction'
+        })
+    }
+    if (typeof valuesToUpdate.publicationDate !== 'string') {
+        errors.errorsMessages.push({
+            message: 'publicationDate is required',
+            field: 'publicationDate'
+        })
+    }
+    if (typeof valuesToUpdate.canBeDownloaded != 'boolean' || null) {
+        errors.errorsMessages.push({
+            message: 'canBeDownloaded is required',
+            field: 'canBeDownloaded'
+        })
+    }
+    if (errors.errorsMessages.length) {
         res.status(400).send(errors)
     } else {
         const result = videosRepo.updateVideo(+req.params.id, valuesToUpdate)
