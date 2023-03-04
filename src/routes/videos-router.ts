@@ -73,7 +73,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     if (!valuesToUpdate.title || typeof valuesToUpdate.title !== 'string' || valuesToUpdate.title.length > 40) {
         errors.errorsMessages.push({message: 'Title is required', field: 'title'})
     }
-    if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string' || valuesToUpdate.author.trim().length > 40) {
+    if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string' || valuesToUpdate.author.length > 20) {
         errors.errorsMessages.push({message: 'Author is required', field: 'author'})
     }
     if (!valuesToUpdate.availableResolutions || !valuesToUpdate.availableResolutions.length) {
