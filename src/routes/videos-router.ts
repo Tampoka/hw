@@ -44,13 +44,13 @@ videosRouter.post('/', (req: Request, res: Response) => {
         'errorsMessages': []
     }
     if (!req.body.title || !req.body.author || !req.body.availableResolutions) {
-        if (typeof req.body.title != 'string' || req.body.title.trim().length > 40) {
+        if (!req.body.title||typeof req.body.title != 'string' || req.body.title.trim().length > 40) {
             errors.errorsMessages.push({message: 'Title is required', field: 'title'})
         }
-        if (typeof req.body.author != 'string' || req.body.author.trim().length > 40) {
+        if (!req.body.author||typeof req.body.author != 'string' || req.body.author.trim().length > 40) {
             errors.errorsMessages.push({message: 'Author is required', field: 'author'})
         }
-        if (!req.body.availableResolutions.length) {
+        if (!req.body.availableResolutions||!req.body.availableResolutions.length) {
             errors.errorsMessages.push({
                 message: 'Resolution is required',
                 field: 'availableResolutions'
