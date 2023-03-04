@@ -74,12 +74,12 @@ export const videosRepo = {
     updateVideo(id: number, valuesToUpdate: VideoUpdateType) {
         const video = videosData!.find(el => el.id === id)
         if (video) {
-            video.title = valuesToUpdate.title
-            video.author = valuesToUpdate.author
-            video.availableResolutions = valuesToUpdate.availableResolutions
+            video.title = valuesToUpdate.title || video.title
+            video.author = valuesToUpdate.author || video.author
+            video.availableResolutions = valuesToUpdate.availableResolutions || video.availableResolutions
             video.minAgeRestriction = valuesToUpdate.minAgeRestriction || null
-            video.publicationDate = valuesToUpdate.publicationDate
-            video.canBeDownloaded = valuesToUpdate.canBeDownloaded || false
+            video.publicationDate = valuesToUpdate.publicationDate || video.publicationDate
+            video.canBeDownloaded = valuesToUpdate.canBeDownloaded || video.canBeDownloaded
             return video
         } else {
             return false
