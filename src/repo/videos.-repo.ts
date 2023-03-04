@@ -16,7 +16,7 @@ export type VideoUpdateType = {
     "availableResolutions": ResolutionsType
     "canBeDownloaded": boolean | null
 }
-const Resolutions = [
+export const Resolutions = [
     '144',
     "240",
     "360",
@@ -25,7 +25,7 @@ const Resolutions = [
     "1080",
     "1440",
     "1080",
-] as const
+]
 
 export type ResolutionsType = Array<typeof Resolutions[number]>
 

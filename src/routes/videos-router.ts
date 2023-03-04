@@ -1,5 +1,6 @@
 import {Request, Response, Router} from 'express';
-import {videosRepo} from '../repo/videos.-repo';
+import {Resolutions, ResolutionsType, videosRepo} from '../repo/videos.-repo';
+import {type} from 'os';
 
 export const videosRouter = Router({})
 
@@ -49,7 +50,7 @@ videosRouter.post('/', (req: Request, res: Response) => {
     if (!req.body.author || typeof req.body.author !== 'string' || req.body.author.length > 20) {
         errors.errorsMessages.push({message: 'Author is required', field: 'author'})
     }
-    if (!req.body.availableResolutions || !req.body.availableResolutions.length) {
+    if (!req.body.availableResolutions || !req.body.availableResolutions.length || !Resolutions.filter(el=>req.body.title.availableResolutions.includes(el))) {
         errors.errorsMessages.push({
             message: 'Resolution is required',
             field: 'availableResolutions'
