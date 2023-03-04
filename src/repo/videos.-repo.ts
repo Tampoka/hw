@@ -6,14 +6,14 @@ export type VideoType = {
     "minAgeRestriction": number | null
     "createdAt": string
     "publicationDate": string
-    "availableResolutions": ResolutionsType
+    "availableResolutions": any
 }
 export type VideoUpdateType = {
     "title": string
     "author": string
     "minAgeRestriction": number | null
     "publicationDate": string
-    "availableResolutions": ResolutionsType
+    "availableResolutions": any
     "canBeDownloaded": boolean | null
 }
 export const Resolutions = [
@@ -26,7 +26,6 @@ export const Resolutions = [
     "1440",
     "1080",
 ]
-export type ResolutionsType = Array<typeof Resolutions[number]>
 
 let videosData: VideoType[] = [{
     id: 1,
@@ -56,7 +55,7 @@ export const videosRepo = {
     findVideo(id: number) {
         return videosData!.find(el => el.id === id)
     },
-    createVideo(title: string, author: string, resolution: ResolutionsType) {
+    createVideo(title: string, author: string, resolution: any) {
         const newVideo: VideoType = {
             id: +(new Date()),
             title,
