@@ -67,7 +67,9 @@ export const videosRepo = {
             publicationDate: new Date().toISOString(),
             availableResolutions: resolution
         }
-        videosData!.push(newVideo)
+        if (videosData) {
+            videosData!.push(newVideo)
+        }
         return newVideo
     },
     updateVideo(id: number, valuesToUpdate: VideoUpdateType) {
