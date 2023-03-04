@@ -43,7 +43,7 @@ videosRouter.post('/', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         'errorsMessages': []
     }
-    if (!req.body.title || typeof req.body.title !== 'string' || req.body.title.trim().length > 40) {
+    if (!req.body.title || typeof req.body.title == null || req.body.title.trim().length > 40) {
         errors.errorsMessages.push({message: 'Title is required', field: 'title'})
     }
     if (!req.body.author || typeof req.body.author !== 'string' || req.body.author.trim().length > 40) {
@@ -69,7 +69,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         'errorsMessages': []
     }
     if (!valuesToUpdate.title || !valuesToUpdate.author || !valuesToUpdate.availableResolutions || !valuesToUpdate.minAgeRestriction || !valuesToUpdate.publicationDate) {
-        if (!valuesToUpdate.title || typeof valuesToUpdate.title !== 'string' || valuesToUpdate.title.trim().length > 40) {
+        if (!valuesToUpdate.title || typeof valuesToUpdate.title !== 'string' || typeof req.body.title == null || valuesToUpdate.title.trim().length > 40) {
             errors.errorsMessages.push({message: 'Title is required', field: 'title'})
         }
         if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string' || valuesToUpdate.author.trim().length > 40) {
