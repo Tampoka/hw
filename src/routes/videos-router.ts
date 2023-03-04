@@ -43,10 +43,10 @@ videosRouter.post('/', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         'errorsMessages': []
     }
-    if (!req.body.title) {
+    if (!req.body.title || typeof req.body.title !== 'string') {
         errors.errorsMessages.push({message: 'Title is required', field: 'title'})
     }
-    if (!req.body.author) {
+    if (!req.body.author || typeof req.body.author !== 'string') {
         errors.errorsMessages.push({message: 'Author is required', field: 'author'})
     }
     if (!req.body.availableResolutions) {
@@ -69,10 +69,10 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         'errorsMessages': []
     }
     if (!valuesToUpdate.title || !valuesToUpdate.author || !valuesToUpdate.availableResolutions || !valuesToUpdate.minAgeRestriction || !valuesToUpdate.publicationDate) {
-        if (!valuesToUpdate.title) {
+        if (!valuesToUpdate.title || typeof valuesToUpdate.title !== 'string') {
             errors.errorsMessages.push({message: 'Title is required', field: 'title'})
         }
-        if (!valuesToUpdate.author) {
+        if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string') {
             errors.errorsMessages.push({message: 'Author is required', field: 'author'})
         }
         if (!valuesToUpdate.availableResolutions) {
@@ -81,24 +81,24 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
                 field: 'availableResolutions'
             })
         }
-        if (!valuesToUpdate.minAgeRestriction) {
+        if (!valuesToUpdate.minAgeRestriction || typeof valuesToUpdate.minAgeRestriction !== 'number' || null) {
             errors.errorsMessages.push({
                 message: 'minAgeRestriction is required',
                 field: 'minAgeRestriction'
             })
         }
-        if (!valuesToUpdate.publicationDate) {
+        if (!valuesToUpdate.publicationDate || typeof valuesToUpdate.publicationDate !== 'string') {
             errors.errorsMessages.push({
                 message: 'publicationDate is required',
                 field: 'publicationDate'
             })
         }
-        res.status(400).send(errors)
+        res.status(404).send(errors)
     }
     const result = videosRepo.updateVideo(+req.params.id, valuesToUpdate)
     if (result) {
         res.status(204)
     } else {
-        res.sendStatus(400)
+        res.sendStatus(404)
     }
 })
