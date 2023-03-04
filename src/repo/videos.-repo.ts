@@ -25,8 +25,7 @@ export const Resolutions = [
     "1080",
     "1440",
     "1080",
-] as const
-
+]
 export type ResolutionsType = Array<typeof Resolutions[number]>
 
 let videosData: VideoType[] = [{
