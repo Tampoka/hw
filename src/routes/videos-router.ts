@@ -14,11 +14,7 @@ type ErrorsType = {
 
 videosRouter.get('/', (req: Request, res: Response) => {
     const result = videosRepo.findVideos()
-    if (result) {
-        res.send(result)
-    } else {
-        res.sendStatus(404)
-    }
+    res.status(200).send(result)
 })
 videosRouter.get('/:id', (req: Request, res: Response) => {
     const result = videosRepo.findVideo(+req.params.id)
