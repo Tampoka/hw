@@ -14,6 +14,7 @@ export type VideoUpdateType = {
     "minAgeRestriction": number | null
     "publicationDate": string
     "availableResolutions": ResolutionsType
+    "canBeDownloaded": boolean | null
 }
 const Resolutions = [
     '144',
@@ -78,6 +79,7 @@ export const videosRepo = {
             video.availableResolutions = valuesToUpdate.availableResolutions
             video.minAgeRestriction = valuesToUpdate.minAgeRestriction
             video.publicationDate = valuesToUpdate.publicationDate
+            video.canBeDownloaded = valuesToUpdate.canBeDownloaded ?? false
             return video
         } else {
             return false

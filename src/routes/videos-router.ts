@@ -43,13 +43,13 @@ videosRouter.post('/', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         'errorsMessages': []
     }
-    if (!req.body.title || typeof req.body.title !== 'string') {
+    if (!req.body.title || typeof req.body.title !== 'string'||req.body.title.trim().length>40) {
         errors.errorsMessages.push({message: 'Title is required', field: 'title'})
     }
-    if (!req.body.author || typeof req.body.author !== 'string') {
+    if (!req.body.author || typeof req.body.author !== 'string'||req.body.author.trim().length>40) {
         errors.errorsMessages.push({message: 'Author is required', field: 'author'})
     }
-    if (!req.body.availableResolutions) {
+    if (!req.body.availableResolutions||!req.body.availableResolutions.length) {
         errors.errorsMessages.push({
             message: 'Resolution is required',
             field: 'availableResolutions'
@@ -69,13 +69,13 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         'errorsMessages': []
     }
     if (!valuesToUpdate.title || !valuesToUpdate.author || !valuesToUpdate.availableResolutions || !valuesToUpdate.minAgeRestriction || !valuesToUpdate.publicationDate) {
-        if (!valuesToUpdate.title || typeof valuesToUpdate.title !== 'string') {
+        if (!valuesToUpdate.title || typeof valuesToUpdate.title !== 'string'||valuesToUpdate.title.trim().length>40) {
             errors.errorsMessages.push({message: 'Title is required', field: 'title'})
         }
-        if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string') {
+        if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string'||valuesToUpdate.author.trim().length>40) {
             errors.errorsMessages.push({message: 'Author is required', field: 'author'})
         }
-        if (!valuesToUpdate.availableResolutions) {
+        if (!valuesToUpdate.availableResolutions||!valuesToUpdate.availableResolutions.length) {
             errors.errorsMessages.push({
                 message: 'AvailableResolutions is required',
                 field: 'availableResolutions'
@@ -93,7 +93,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
                 field: 'publicationDate'
             })
         }
-        res.status(404).send(errors)
+        res.status(400).send(errors)
     }
     const result = videosRepo.updateVideo(+req.params.id, valuesToUpdate)
     if (result) {
