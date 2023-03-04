@@ -17,6 +17,9 @@ videosRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(result)
 })
 videosRouter.get('/:id', (req: Request, res: Response) => {
+    if (!req.params.id) {
+        res.status(404)
+    }
     const result = videosRepo.findVideo(+req.params.id)
     if (result) {
         res.status(200).send(result)
@@ -26,6 +29,9 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 videosRouter.delete('/:id', (req: Request, res: Response) => {
+    if (!req.params.id) {
+        res.status(404)
+    }
     let result = videosRepo.deleteVideo(+req.params.id);
     if (result) {
         res.sendStatus(204)
@@ -48,13 +54,16 @@ videosRouter.post('/', (req: Request, res: Response) => {
             message: 'Resolution is required',
             field: 'availableResolutions'
         })
-        return res.status(400).send(errors)
+        res.status(400).send(errors)
     } else {
         const result = videosRepo.createVideo(req.body.title, req.body.author, req.body.availableResolutions)
-        return res.status(201).send(result)
+        res.status(201).send(result)
     }
 })
 videosRouter.put('/:id', (req: Request, res: Response) => {
+    if (!req.params.id) {
+        res.status(404)
+    }
     const valuesToUpdate = req.body
     const errors: ErrorsType = {
         'errorsMessages': []
@@ -84,12 +93,12 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
                 field: 'publicationDate'
             })
         }
-        return res.status(400).send(errors)
+        res.status(400).send(errors)
     }
     const result = videosRepo.updateVideo(+req.params.id, valuesToUpdate)
     if (result) {
-        return res.status(204)
+        res.status(204)
     } else {
-        return res.sendStatus(400)
+        res.sendStatus(400)
     }
 })
