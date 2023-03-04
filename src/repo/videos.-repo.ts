@@ -95,6 +95,6 @@ export const videosRepo = {
         }
     },
     deleteAll() {
-        videosData = null
+        videosData = [] as VideoType[]
     }
 }
