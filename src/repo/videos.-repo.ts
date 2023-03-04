@@ -59,7 +59,7 @@ export const videosRepo = {
     },
     createVideo(title: string, author: string, resolution: ResolutionsType) {
         const newVideo: VideoType = {
-            id: Date.now(),
+            id: +(new Date()),
             title,
             author,
             canBeDownloaded: false,
