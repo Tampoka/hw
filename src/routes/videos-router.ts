@@ -95,8 +95,8 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         }
         if (!valuesToUpdate.canBeDownloaded || typeof valuesToUpdate.publicationDate !== 'boolean' || null) {
             errors.errorsMessages.push({
-                message: 'publicationDate is required',
-                field: 'publicationDate'
+                message: 'canBeDownloaded is required',
+                field: 'canBeDownloaded'
             })
         }
         res.status(400).send(errors)
