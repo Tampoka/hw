@@ -81,7 +81,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
                 field: 'availableResolutions'
             })
         }
-        if (!(valuesToUpdate.minAgeRestriction >= 1) && !(valuesToUpdate.minAgeRestriction <= 18)) {
+        if (!(valuesToUpdate.minAgeRestriction >= 1) || !(valuesToUpdate.minAgeRestriction <= 18)) {
             errors.errorsMessages.push({
                 message: 'minAgeRestriction is required',
                 field: 'minAgeRestriction'
