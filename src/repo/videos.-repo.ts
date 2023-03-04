@@ -28,7 +28,7 @@ const Resolutions = [
 
 type ResolutionsType = Array<typeof Resolutions[number]>
 
-const videosData: VideoType[] = [{
+let videosData: VideoType[] | null = [{
     id: 1,
     title: 'Cooking',
     author: 'Dimych',
@@ -54,7 +54,7 @@ export const videosRepo = {
         return videosData
     },
     findVideo(id: number) {
-        return videosData.find(el => el.id === id)
+        return videosData!.find(el => el.id === id)
     },
     createVideo(title: string, author: string, resolution: ResolutionsType) {
         const newVideo = {
@@ -67,11 +67,11 @@ export const videosRepo = {
             publicationDate: new Date().toISOString(),
             availableResolutions: resolution
         }
-        videosData.push(newVideo)
+        videosData!.push(newVideo)
         return newVideo
     },
     updateVideo(id: number, valuesToUpdate: VideoUpdateType) {
-        const video = videosData.find(el => el.id === id)
+        const video = videosData!.find(el => el.id === id)
         if (video) {
             video.title = valuesToUpdate.title
             video.author = valuesToUpdate.author
@@ -84,12 +84,15 @@ export const videosRepo = {
         }
     },
     deleteVideo(id: number) {
-        let index = videosData.findIndex(el => el.id === id)
+        let index = videosData!.findIndex(el => el.id === id)
         if (index > -1) {
-            videosData.splice(index, 1)
+            videosData!.splice(index, 1)
             return true
         } else {
             return false
         }
     },
+    deleteAll() {
+        videosData = null
+    }
 }
