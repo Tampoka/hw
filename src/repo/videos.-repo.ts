@@ -77,9 +77,9 @@ export const videosRepo = {
             video.title = valuesToUpdate.title
             video.author = valuesToUpdate.author
             video.availableResolutions = valuesToUpdate.availableResolutions
-            video.minAgeRestriction = valuesToUpdate.minAgeRestriction
+            video.minAgeRestriction = valuesToUpdate.minAgeRestriction || null
             video.publicationDate = valuesToUpdate.publicationDate
-            video.canBeDownloaded = valuesToUpdate.canBeDownloaded ?? false
+            video.canBeDownloaded = valuesToUpdate.canBeDownloaded || false
             return video
         } else {
             return false
