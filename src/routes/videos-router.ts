@@ -100,11 +100,12 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
             })
         }
         res.status(400).send(errors)
-    }
-    const result = videosRepo.updateVideo(+req.params.id, valuesToUpdate)
-    if (result) {
-        res.status(204)
     } else {
-        res.sendStatus(404)
+        const result = videosRepo.updateVideo(+req.params.id, valuesToUpdate)
+        if (result) {
+            res.status(204)
+        } else {
+            res.sendStatus(404)
+        }
     }
 })
