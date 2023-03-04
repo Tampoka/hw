@@ -6,14 +6,14 @@ export type VideoType = {
     "minAgeRestriction": number | null
     "createdAt": string
     "publicationDate": string
-    "availableResolutions": any
+    "availableResolutions": string[]
 }
 export type VideoUpdateType = {
     "title": string
     "author": string
     "minAgeRestriction": number | null
     "publicationDate": string
-    "availableResolutions": any
+    "availableResolutions": string[]
     "canBeDownloaded": boolean | null
 }
 export const Resolutions = [
@@ -55,7 +55,7 @@ export const videosRepo = {
     findVideo(id: number) {
         return videosData!.find(el => el.id === id)
     },
-    createVideo(title: string, author: string, resolution: any) {
+    createVideo(title: string, author: string, resolution: string[]) {
         const newVideo: VideoType = {
             id: +(new Date()),
             title,
