@@ -64,8 +64,8 @@ export const videosRepo = {
             author,
             canBeDownloaded: false,
             minAgeRestriction: null,
-            createdAt: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
-            publicationDate: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
+            createdAt: new Date().toISOString(),
+            publicationDate: new Date().toISOString(),
             availableResolutions: resolution
         }
         videosData.push(newVideo)
