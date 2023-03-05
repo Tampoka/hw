@@ -1,5 +1,5 @@
 import {Request, Response, Router} from 'express';
-import {Resolutions,  videosRepo} from '../repo/videos.-repo';
+import {Resolutions, videosRepo} from '../repo/videos.-repo';
 import {type} from 'os';
 
 export const videosRouter = Router({})
@@ -44,15 +44,33 @@ videosRouter.post('/', (req: Request, res: Response) => {
     const errors: ErrorsType = {
         'errorsMessages': []
     }
-    if (!req.body.title || typeof req.body.title !== 'string' || req.body.title.length > 40) {
+    if (!req.body.title) {
         errors.errorsMessages.push({message: 'Title is required', field: 'title'})
     }
-    if (!req.body.author || typeof req.body.author !== 'string' || req.body.author.length > 20) {
+    if (req.body.title && typeof req.body.title !== 'string') {
+        errors.errorsMessages.push({message: 'Title is not a string', field: 'title'})
+    }
+    if (req.body.title && req.body.title.length > 40) {
+        errors.errorsMessages.push({message: 'Title length is invalid', field: 'title'})
+    }
+    if (!req.body.author) {
         errors.errorsMessages.push({message: 'Author is required', field: 'author'})
     }
-    if (!req.body.availableResolutions || !req.body.availableResolutions.length || Resolutions.filter(el=>req.body.title.availableResolutions.includes(el))) {
+    if (req.body.author && typeof req.body.author !== 'string') {
+        errors.errorsMessages.push({message: 'Author is not a string', field: 'author'})
+    }
+    if (req.body.author && req.body.author.length > 20) {
+        errors.errorsMessages.push({message: 'Author length is invalid', field: 'author'})
+    }
+    if (req.body.availableResolutions && !req.body.availableResolutions.length) {
         errors.errorsMessages.push({
-            message: 'Resolution is required',
+            message: 'Resolution is empty',
+            field: 'availableResolutions'
+        })
+    }
+    if (req.body.availableResolutions && req.body.availableResolutions.some((el: string) => Resolutions.indexOf(el) !== -1)) {
+        errors.errorsMessages.push({
+            message: 'Resolution type is invalid',
             field: 'availableResolutions'
         })
     }
@@ -77,25 +95,37 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     if (!valuesToUpdate.author || typeof valuesToUpdate.author !== 'string' || valuesToUpdate.author.length > 20) {
         errors.errorsMessages.push({message: 'Author is required', field: 'author'})
     }
-    if (!valuesToUpdate.availableResolutions || !valuesToUpdate.availableResolutions.length) {
+    if (req.body.availableResolutions && !req.body.availableResolutions.length) {
         errors.errorsMessages.push({
-            message: 'AvailableResolutions is required',
+            message: 'Resolution is empty',
             field: 'availableResolutions'
         })
     }
-    if (valuesToUpdate.minAgeRestriction < 1 || valuesToUpdate.minAgeRestriction > 18) {
+    if (req.body.availableResolutions && req.body.availableResolutions.some((el: string) => Resolutions.indexOf(el) !== -1)) {
+        errors.errorsMessages.push({
+            message: 'Resolution type is invalid',
+            field: 'availableResolutions'
+        })
+    }
+    if (valuesToUpdate.minAgeRestriction && valuesToUpdate.minAgeRestriction < 1) {
         errors.errorsMessages.push({
             message: 'minAgeRestriction is required',
             field: 'minAgeRestriction'
         })
     }
-    if (typeof valuesToUpdate.publicationDate !== 'string') {
+    if (valuesToUpdate.minAgeRestriction && valuesToUpdate.minAgeRestriction > 18) {
+        errors.errorsMessages.push({
+            message: 'minAgeRestriction is required',
+            field: 'minAgeRestriction'
+        })
+    }
+    if (valuesToUpdate.publicationDate && typeof valuesToUpdate.publicationDate !== 'string') {
         errors.errorsMessages.push({
             message: 'publicationDate is required',
             field: 'publicationDate'
         })
     }
-    if (typeof valuesToUpdate.canBeDownloaded != 'boolean' || null) {
+    if (valuesToUpdate.canBeDownloaded && typeof valuesToUpdate.canBeDownloaded != 'boolean' || null) {
         errors.errorsMessages.push({
             message: 'canBeDownloaded is required',
             field: 'canBeDownloaded'
@@ -106,7 +136,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     } else {
         const result = videosRepo.updateVideo(+req.params.id, valuesToUpdate)
         if (result) {
-            res.status(204)
+            res.sendStatus(204)
         } else {
             res.sendStatus(404)
         }
