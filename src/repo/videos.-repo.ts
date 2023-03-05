@@ -24,7 +24,7 @@ export const Resolutions = [
     "P720",
     "P1080",
     "P1440",
-    "P1080",
+    "P2160",
 ]
 
 let videosData: VideoType[] = [{
