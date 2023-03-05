@@ -63,7 +63,7 @@ export const videosRepo = {
             canBeDownloaded: false,
             minAgeRestriction: null,
             createdAt: new Date('2023-03-05').toISOString(),
-            publicationDate: new Date('2023-03-05').toISOString(),
+            publicationDate: new Date('2023-03-06').toISOString(),
             availableResolutions: resolution || ["P144"]
         }
         videosData.push(newVideo)
