@@ -101,7 +101,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
             field: 'availableResolutions'
         })
     }
-    if (req.body.availableResolutions && req.body.availableResolutions.some((el: string) => Resolutions.indexOf(el) !== -1)) {
+    if (req.body.availableResolutions && req.body.availableResolutions.some((el: string) => Resolutions.indexOf(el) === -1)) {
         errors.errorsMessages.push({
             message: 'Resolution type is invalid',
             field: 'availableResolutions'

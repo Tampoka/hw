@@ -17,14 +17,14 @@ export type VideoUpdateType = {
     "canBeDownloaded"?: boolean | null
 }
 export const Resolutions = [
-    '144',
-    "240",
-    "360",
-    "480",
-    "720",
-    "1080",
-    "1440",
-    "1080",
+    'P144',
+    "P240",
+    "P360",
+    "P480",
+    "P720",
+    "P1080",
+    "P1440",
+    "P1080",
 ]
 
 let videosData: VideoType[] = [{
