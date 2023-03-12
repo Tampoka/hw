@@ -56,14 +56,15 @@ export const videosRepo = {
         return videosData!.find(el => el.id === id)
     },
     createVideo(title: string, author: string, resolution?: Array<string>) {
+        const date = new Date()
         const newVideo: VideoType = {
             id: +(new Date()),
             title,
             author,
             canBeDownloaded: false,
             minAgeRestriction: null,
-            createdAt: new Date('2023-03-05').toISOString(),
-            publicationDate: new Date('2023-03-06').toISOString(),
+            createdAt: new Date().toISOString(),
+            publicationDate: new Date(date.setDate(date.getDate() + 1)).toISOString(),
             availableResolutions: resolution || ["P144"]
         }
         videosData.push(newVideo)
