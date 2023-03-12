@@ -1,10 +1,9 @@
-import request from 'supertest'
+const request = require('supertest');
 import {app} from '../src/settings'
 import {VideoType} from '../src/repo/videos.-repo';
 import {CodeResponsesEnum} from '../src/enums';
 
 describe('/videos', () => {
-    let newVideo: VideoType | null = null
 
     beforeAll(async () => {
         await request(app).delete('/testing/all-data').expect(CodeResponsesEnum.No_content_204)
@@ -28,7 +27,7 @@ describe('/videos', () => {
         const res = await request(app).get('/videos/')
         expect(res.body).toEqual([])
     })
-    let createdVideo: any = null
+    let createdVideo: VideoType | null = null
     it('- POST create the video with correct data (title, author)', async () => {
         const title = 'Amazing'
         const author = 'Kuku'
