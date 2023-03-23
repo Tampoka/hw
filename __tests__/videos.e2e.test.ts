@@ -1,6 +1,6 @@
 const request = require('supertest');
 import {app} from '../src/settings'
-import {VideoType} from '../src/repo/videos.-repo';
+import {VideoType} from '../src/api_1v/repo/videos.-repo';
 import {CodeResponsesEnum} from '../src/enums';
 
 describe('/videos', () => {

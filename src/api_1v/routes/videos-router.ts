@@ -1,6 +1,6 @@
 import {Request, Response, Router} from 'express';
 import {Resolutions, videosRepo} from '../repo/videos.-repo';
-import {CodeResponsesEnum} from '../enums';
+import {CodeResponsesEnum} from '../../enums';
 
 export const videosRouter = Router({})
 
