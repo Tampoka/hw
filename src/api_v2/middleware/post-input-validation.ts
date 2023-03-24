@@ -39,7 +39,7 @@ export const blogIdValidation = body('content').isString().trim().isLength({
 export const postInputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
-        res.status(400).json({errorMessages: errors.array()})
+        res.status(400).json({errorsMessages: errors.array()})
     } else {
         next()
     }
