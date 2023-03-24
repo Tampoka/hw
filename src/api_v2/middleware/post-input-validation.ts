@@ -14,7 +14,7 @@ export const shortDescriptionValidation = body('shortDescription').isString().tr
     max: 100
 }).withMessage({
     message: 'Post shortDescription should be from 1 to 100 symbols',
-    field: 'description'
+    field: 'post shortDescription'
 });
 
 export const contentValidation = body('content').isString().trim().isLength({
@@ -22,14 +22,14 @@ export const contentValidation = body('content').isString().trim().isLength({
     max: 1000
 }).withMessage({
     message: 'Post content should be from 1 to 1000 symbols',
-    field: 'description'
+    field: 'post content'
 });
 
 export const blogIdValidation = body('content').isString().trim().isLength({
     min: 1,
 }).withMessage({
     message: 'Post blogId should be from 1 symbol',
-    field: 'description'
+    field: 'post blogId'
 });
 
 export const postInputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
