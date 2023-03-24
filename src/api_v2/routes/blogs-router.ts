@@ -8,6 +8,7 @@ import {
     websiteUrlValidation
 } from '../middleware/blog-input-validation';
 import {authMiddleware} from '../middleware/isAuth';
+import {postsRepo} from '../repo/posts-repo';
 
 export const blogsRouter = Router({})
 
@@ -33,6 +34,7 @@ blogsRouter.delete('/:id', authMiddleware, (req: Request, res: Response) => {
     }
     let result = blogsRepo.deleteBlog(req.params.id);
     if (result) {
+        postsRepo.deleteBlogAllPosts(req.params.id)
         res.sendStatus(CodeResponsesEnum.No_content_204)
     } else {
         res.sendStatus(CodeResponsesEnum.Not_found_404)

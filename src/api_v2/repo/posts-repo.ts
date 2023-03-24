@@ -77,6 +77,9 @@ export const postsRepo = {
             return false
         }
     },
+    deleteBlogAllPosts(id: string) {
+     postsData=postsData.filter(p=>p.blogId===id)
+    },
     deleteAll() {
         postsData = []
     }
