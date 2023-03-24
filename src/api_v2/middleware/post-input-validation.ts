@@ -28,8 +28,9 @@ export const contentValidation = body('content').isString().trim().isLength({
     field: 'content'
 });
 
-export const blogIdValidation = body('content').isString().trim().isLength({
+export const blogIdValidation = body('blogId').isString().trim().isLength({
     min: 1,
+    max:30
 }).withMessage({
     message: 'Post blogId should be from 1 symbol',
     field: 'blogId'
