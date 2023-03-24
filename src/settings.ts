@@ -16,8 +16,7 @@ app.use('/api/v2/posts', postsRouter)
 //     res.send('Hello back-end HomeWorks in it-incubator!!!')
 // })
 
-app.delete('/testing/all-data', async (req: Request, res: Response) => {
-    await videosRepo.deleteAll()
+app.delete('api/v2//testing/all-data', async (req: Request, res: Response) => {
     await blogsRepo.deleteAll()
     await postsRepo.deleteAll()
     res.sendStatus(204)
