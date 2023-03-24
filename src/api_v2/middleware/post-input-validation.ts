@@ -8,6 +8,7 @@ export const titleValidation = body('title', {
     message: 'Title is required',
     field: 'title'
 }).isString().trim().isLength({
+    min:1,
     max: 30
 }).withMessage({message: 'Post title should be up to 30 symbols', field: 'title'});
 
@@ -15,6 +16,7 @@ export const shortDescriptionValidation = body('shortDescription', {
     message: 'Title is required',
     field: 'shortDescription'
 }).isString().trim().isLength({
+    min:1,
     max: 100
 }).withMessage({
     message: 'Post shortDescription should be from 1 to 100 symbols',

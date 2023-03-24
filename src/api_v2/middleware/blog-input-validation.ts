@@ -10,10 +10,12 @@ export const nameValidation = body('name',{
     message: 'Name is required',
     field: 'name'
 }).isString().trim().isLength({
+    min:1,
     max: 15
 }).withMessage({message: 'Name should be from 1 to 15 symbols', field: 'name'});
 
 export const descriptionValidation = body('description').isString().trim().isLength({
+    min:1,
     max: 500
 }).withMessage({
     message: 'Description should be from 1 to 500 symbols',
