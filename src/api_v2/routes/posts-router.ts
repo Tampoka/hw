@@ -39,12 +39,12 @@ postsRouter.delete('/:id', authMiddleware, (req: Request, res: Response) => {
         res.sendStatus(CodeResponsesEnum.Not_found_404)
     }
 })
-postsRouter.post('/', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, (req: Request, res: Response) => {
+postsRouter.post('/', authMiddleware, shortDescriptionValidation, titleValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, (req: Request, res: Response) => {
 
     const result = postsRepo.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
     res.status(CodeResponsesEnum.Created_201).send(result)
 })
-postsRouter.put('/:id', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, (req: Request, res: Response) => {
+postsRouter.put('/:id', authMiddleware, shortDescriptionValidation, titleValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, (req: Request, res: Response) => {
     if (!req.params.id) {
         res.status(CodeResponsesEnum.Not_found_404)
     }
