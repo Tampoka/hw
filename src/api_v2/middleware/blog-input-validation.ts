@@ -6,8 +6,10 @@ const urlRegex = '^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\
 const errorFormatter = ({msg}: ValidationError) => {
     return msg;
 };
-export const nameValidation = body('name').isString().trim().isLength({
-    min: 1,
+export const nameValidation = body('name',{
+    message: 'Name is required',
+    field: 'name'
+}).isString().trim().isLength({
     max: 15
 }).withMessage({message: 'Name should be from 1 to 15 symbols', field: 'name'});
 

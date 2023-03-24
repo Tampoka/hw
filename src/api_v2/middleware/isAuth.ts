@@ -7,7 +7,9 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     // parse login and password from headers
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
-
+    if (!login || !password) {
+        res.status(401).send('Authentication required.')
+    }
     // Verify login and password are set and correct
     if (login && password && login === auth.login && password === auth.password) {
         // Access granted...
