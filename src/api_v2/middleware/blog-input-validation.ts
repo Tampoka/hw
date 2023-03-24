@@ -12,7 +12,7 @@ export const nameValidation = body('name',{
 }).isString().trim().isLength({
     min:1,
     max: 15
-}).withMessage({message: 'Name should be from 1 to 15 symbols', field: 'name'});
+});
 
 export const descriptionValidation = body('description').isString().trim().isLength({
     min:1,
