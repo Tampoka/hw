@@ -40,12 +40,12 @@ blogsRouter.delete('/:id', authMiddleware, (req: Request, res: Response) => {
         res.sendStatus(CodeResponsesEnum.Not_found_404)
     }
 })
-blogsRouter.post('/', authMiddleware, websiteUrlValidation, nameValidation, descriptionValidation, blogInputValidationMiddleware, (req: Request, res: Response) => {
+blogsRouter.post('/', authMiddleware, nameValidation, descriptionValidation, websiteUrlValidation, blogInputValidationMiddleware, (req: Request, res: Response) => {
 
     const result = blogsRepo.createBlog(req.body.name, req.body.description, req.body.websiteUrl)
     res.status(CodeResponsesEnum.Created_201).send(result)
 })
-blogsRouter.put('/:id', authMiddleware, websiteUrlValidation, nameValidation, descriptionValidation, blogInputValidationMiddleware, (req: Request, res: Response) => {
+blogsRouter.put('/:id', authMiddleware, nameValidation, descriptionValidation, websiteUrlValidation, blogInputValidationMiddleware, (req: Request, res: Response) => {
     if (!req.params.id) {
         res.status(CodeResponsesEnum.Not_found_404)
     }
