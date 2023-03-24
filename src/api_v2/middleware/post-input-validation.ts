@@ -8,15 +8,15 @@ export const titleValidation = body('title', {
     message: 'Title is required',
     field: 'title'
 }).isString().trim().isLength({
-    min:1,
+    min: 1,
     max: 30
 })
 
 export const shortDescriptionValidation = body('shortDescription', {
-    message: 'Title is required',
+    message: 'Short Description is required',
     field: 'shortDescription'
 }).isString().trim().isLength({
-    min:1,
+    min: 1,
     max: 100
 })
 
@@ -38,7 +38,7 @@ export const blogIdValidation = body('content').isString().trim().isLength({
 export const postInputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req).formatWith(errorFormatter);
     if (!errors.isEmpty()) {
-        res.status(400).json({errorsMessages: errors.array()})
+        res.status(400).json({errorsMessages: errors.array({onlyFirstError: true})})
     } else {
         next()
     }
