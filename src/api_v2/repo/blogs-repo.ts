@@ -66,9 +66,13 @@ export const blogsRepo = {
         }
     },
     deleteBlog(id: string) {
+        // blogsData = blogsData.filter(el => el.id !== id)
         let index = blogsData!.findIndex(el => el.id === id)
+        console.log('deleteBlog => index', index)
         if (index !== -1) {
+            console.log(blogsData, 'blogsData before delete')
             blogsData.splice(index, 1)
+            console.log(blogsData, 'blogsData after delete')
             return true
         } else {
             return false
