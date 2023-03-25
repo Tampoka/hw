@@ -51,9 +51,9 @@ blogsRouter.post('/', authMiddleware, nameValidation, descriptionValidation, web
     res.status(CodeResponsesEnum.Created_201).send(result)
 })
 blogsRouter.put('/:id', authMiddleware, nameValidation, descriptionValidation, websiteUrlValidation, blogInputValidationMiddleware, (req: Request, res: Response) => {
-    if (!req.params.id) {
-        res.status(CodeResponsesEnum.Not_found_404)
-    }
+    // if (!req.params.id) {
+    //     res.status(CodeResponsesEnum.Not_found_404)
+    // }
     const valuesToUpdate = req.body
 
     const result = blogsRepo.updateBlog(req.params.id, valuesToUpdate)

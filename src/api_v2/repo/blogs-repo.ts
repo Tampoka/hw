@@ -14,20 +14,21 @@ export type BlogInputModel = {
     "websiteUrl": string
 }
 
-let blogsData: BlogViewModel[] = [{
-    id: '1',
-    name: 'Cooking',
-    description: 'Cooking western cuisine',
-    websiteUrl: 'https://dimychblog.com',
-
-},
-    {
-        id: '2',
-        name: 'Karate',
-        description: 'Everything about martial arts',
-        websiteUrl: 'https://karate.com',
-
-    },
+let blogsData: BlogViewModel[] = [
+//     {
+//     id: '1',
+//     name: 'Cooking',
+//     description: 'Cooking western cuisine',
+//     websiteUrl: 'https://dimychblog.com',
+//
+// },
+//     {
+//         id: '2',
+//         name: 'Karate',
+//         description: 'Everything about martial arts',
+//         websiteUrl: 'https://karate.com',
+//
+//     },
 ]
 
 export const blogsRepo = {
