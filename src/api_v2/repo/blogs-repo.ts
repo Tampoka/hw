@@ -1,6 +1,4 @@
-import crypto, {randomUUID} from 'crypto';
-
-// const uuid = crypto.randomUUID({disableEntropyCache: true})
+import {randomUUID} from 'crypto';
 
 export type BlogViewModel = {
     "id": string
@@ -15,20 +13,20 @@ export type BlogInputModel = {
 }
 
 let blogsData: BlogViewModel[] = [
-//     {
-//     id: '1',
-//     name: 'Cooking',
-//     description: 'Cooking western cuisine',
-//     websiteUrl: 'https://dimychblog.com',
-//
-// },
-//     {
-//         id: '2',
-//         name: 'Karate',
-//         description: 'Everything about martial arts',
-//         websiteUrl: 'https://karate.com',
-//
-//     },
+    {
+        id: '1',
+        name: 'Cooking',
+        description: 'Cooking western cuisine',
+        websiteUrl: 'https://dimychblog.com',
+
+    },
+    {
+        id: '2',
+        name: 'Karate',
+        description: 'Everything about martial arts',
+        websiteUrl: 'https://karate.com',
+
+    },
 ]
 
 export const blogsRepo = {
@@ -66,13 +64,9 @@ export const blogsRepo = {
         }
     },
     deleteBlog(id: string) {
-        // blogsData = blogsData.filter(el => el.id !== id)
         let index = blogsData!.findIndex(el => el.id === id)
-        console.log('deleteBlog => index', index)
         if (index !== -1) {
-            console.log(blogsData, 'blogsData before delete')
             blogsData.splice(index, 1)
-            console.log(blogsData, 'blogsData after delete')
             return true
         } else {
             return false

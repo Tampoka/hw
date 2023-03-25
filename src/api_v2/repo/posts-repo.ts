@@ -1,5 +1,5 @@
 import {blogsRepo} from './blogs-repo';
-import crypto, {randomUUID} from 'crypto';
+import  {randomUUID} from 'crypto';
 
 export type PostViewModel = {
     id: string

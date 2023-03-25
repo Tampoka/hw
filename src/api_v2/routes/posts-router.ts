@@ -14,16 +14,13 @@ export const postsRouter = Router({})
 
 postsRouter.get('/', (req: Request, res: Response) => {
     const result = postsRepo.findPosts()
-    if (result.length>0) {
+    if (result.length > 0) {
         res.status(CodeResponsesEnum.OK_200).send(result)
     } else {
         res.sendStatus(CodeResponsesEnum.Not_found_404)
     }
 })
 postsRouter.get('/:id', (req: Request, res: Response) => {
-    if (!req.params.id) {
-        res.status(CodeResponsesEnum.Not_found_404)
-    }
     const result = postsRepo.findPost(req.params.id)
     if (result) {
         res.status(CodeResponsesEnum.OK_200).send(result)
@@ -33,9 +30,9 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 postsRouter.delete('/:id', authMiddleware, (req: Request, res: Response) => {
-    if (!req.params.id) {
-        res.status(CodeResponsesEnum.Not_found_404)
-    }
+    // if (!req.params.id) {
+    //     res.status(CodeResponsesEnum.Not_found_404)
+    // }
     let result = postsRepo.deletePost(req.params.id);
     if (result) {
         res.sendStatus(CodeResponsesEnum.No_content_204)
@@ -44,7 +41,6 @@ postsRouter.delete('/:id', authMiddleware, (req: Request, res: Response) => {
     }
 })
 postsRouter.post('/', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, (req: Request, res: Response) => {
-
     const result = postsRepo.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
     res.status(CodeResponsesEnum.Created_201).send(result)
 })
