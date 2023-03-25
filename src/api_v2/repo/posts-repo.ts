@@ -78,7 +78,8 @@ export const postsRepo = {
         }
     },
     deleteBlogAllPosts(id: string) {
-     postsData=postsData.filter(p=>p.blogId===id)
+     const postsToDelete=postsData.filter(p=>p.blogId===id)
+        postsToDelete.forEach(x => postsData.splice(postsData.findIndex(n => n === x), 1));
     },
     deleteAll() {
         postsData = []
