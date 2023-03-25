@@ -32,13 +32,13 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
     }
 })
 
-blogsRouter.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
+blogsRouter.delete('/:id', authMiddleware, (req: Request, res: Response) =>  {
     if (!req.params.id) {
         res.status(CodeResponsesEnum.Not_found_404)
     }
     let result = blogsRepo.deleteBlog(req.params.id);
     if (result) {
-        await postsRepo.deleteBlogAllPosts(req.params.id)
+        postsRepo.deleteBlogAllPosts(req.params.id)
         res.sendStatus(CodeResponsesEnum.No_content_204)
     } else {
         res.sendStatus(CodeResponsesEnum.Not_found_404)
