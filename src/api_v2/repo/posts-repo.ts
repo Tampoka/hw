@@ -40,18 +40,23 @@ export const postsRepo = {
         return postsData
     },
     findPost(id: string) {
-        return postsData!.find(el => el.id === id)
+       const post= postsData!.find(el => el.id === id)
+        if(post) {
+            return post
+        } else {
+            return false
+        }
     },
     createPost(title: string, shortDescription: string, content: string, blogId: string) {
-        const blogName = blogsRepo.findBlog(blogId)?.name
-        if (blogName) {
+        const blog = blogsRepo.findBlog(blogId)
+        if (blog) {
             const newPost: PostViewModel = {
                 id: uuid,
                 title,
                 shortDescription,
                 content,
                 blogId,
-                blogName
+                blogName:blog.name
             }
             postsData.push(newPost)
             return newPost

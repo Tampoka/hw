@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+
 const uuid = crypto.randomUUID({disableEntropyCache: true})
 
 export type BlogViewModel = {
@@ -34,7 +35,12 @@ export const blogsRepo = {
         return blogsData
     },
     findBlog(id: string) {
-        return blogsData!.find(el => el.id === id)
+        const blog = blogsData.find(el => el.id === id)
+        if (blog) {
+            return blog
+        } else {
+            return false
+        }
     },
     createBlog(name: string, description: string, websiteUrl: string) {
         const newBlog: BlogViewModel = {
