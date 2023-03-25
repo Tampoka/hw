@@ -14,7 +14,11 @@ export const blogsRouter = Router({})
 
 blogsRouter.get('/', (req: Request, res: Response) => {
     const result = blogsRepo.findBlogs()
-    res.status(CodeResponsesEnum.OK_200).send(result)
+    if (result) {
+        res.status(CodeResponsesEnum.OK_200).send(result)
+    } else {
+        res.sendStatus(CodeResponsesEnum.Not_found_404)
+    }
 })
 blogsRouter.get('/:id', (req: Request, res: Response) => {
     if (!req.params.id) {
