@@ -1,5 +1,5 @@
 import {blogsRepo} from './blogs-repo';
-const crypto = require("crypto")
+import crypto from 'crypto';
 const uuid = crypto.randomUUID({disableEntropyCache: true})
 
 export type PostViewModel = {
@@ -46,7 +46,7 @@ export const postsRepo = {
         const blogName = blogsRepo.findBlog(blogId)?.name
         if (blogName) {
             const newPost: PostViewModel = {
-                id: uuid(),
+                id: uuid,
                 title,
                 shortDescription,
                 content,
