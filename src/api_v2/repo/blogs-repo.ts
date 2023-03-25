@@ -1,3 +1,6 @@
+const crypto = require("crypto")
+const uuid = crypto.randomUUID({disableEntropyCache: true})
+
 export type BlogViewModel = {
     "id": string
     "name": string
@@ -35,7 +38,7 @@ export const blogsRepo = {
     },
     createBlog(name: string, description: string, websiteUrl: string) {
         const newBlog: BlogViewModel = {
-            id: String(new Date()),
+            id: uuid(),
             name,
             description,
             websiteUrl
