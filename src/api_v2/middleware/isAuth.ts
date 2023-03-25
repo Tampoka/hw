@@ -7,7 +7,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     // parse login and password from headers
     const basicAuth = (req.headers.authorization || '').split(' ')[0]
     if (basicAuth !== 'Basic') {
-        res.status(401).send('Authentication required.')
+        return res.status(401).send('Authentication required.')
     }
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
 
