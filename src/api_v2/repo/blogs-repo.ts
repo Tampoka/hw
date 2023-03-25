@@ -66,8 +66,8 @@ export const blogsRepo = {
     },
     deleteBlog(id: string) {
         let index = blogsData!.findIndex(el => el.id === id)
-        if (index > -1) {
-            blogsData!.splice(index, 1)
+        if (index !== -1) {
+            blogsData.splice(index, 1)
             return true
         } else {
             return false

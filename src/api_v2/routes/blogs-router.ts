@@ -14,16 +14,17 @@ export const blogsRouter = Router({})
 
 blogsRouter.get('/', (req: Request, res: Response) => {
     const result = blogsRepo.findBlogs()
-    if (result.length>0) {
-        res.status(CodeResponsesEnum.OK_200).send(result)
-    } else {
-        res.sendStatus(CodeResponsesEnum.Not_found_404)
-    }
+    res.status(CodeResponsesEnum.OK_200).send(result)
+    // if (result.length>0) {
+    //     res.status(CodeResponsesEnum.OK_200).send(result)
+    // } else {
+    //     res.sendStatus(CodeResponsesEnum.Not_found_404)
+    // }
 })
 blogsRouter.get('/:id', (req: Request, res: Response) => {
-    if (!req.params.id) {
-        res.status(CodeResponsesEnum.Not_found_404)
-    }
+    // if (!req.params.id) {
+    //     res.status(CodeResponsesEnum.Not_found_404)
+    // }
     const result = blogsRepo.findBlog(req.params.id)
     if (result) {
         res.status(CodeResponsesEnum.OK_200).send(result)
@@ -33,12 +34,12 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
 })
 
 blogsRouter.delete('/:id', authMiddleware, (req: Request, res: Response) =>  {
-    if (!req.params.id) {
-        res.status(CodeResponsesEnum.Not_found_404)
-    }
+    // if (!req.params.id) {
+    //     res.status(CodeResponsesEnum.Not_found_404)
+    // }
     let result = blogsRepo.deleteBlog(req.params.id);
     if (result) {
-        postsRepo.deleteBlogAllPosts(req.params.id)
+        // postsRepo.deleteBlogAllPosts(req.params.id)
         res.sendStatus(CodeResponsesEnum.No_content_204)
     } else {
         res.sendStatus(CodeResponsesEnum.Not_found_404)

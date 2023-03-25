@@ -62,17 +62,17 @@ describe('/videos', () => {
     })
     it('+ GET product by ID with correct id', async () => {
         await request(app)
-            .get('/videos/' + createdVideo.id)
+            .get('/videos/' + createdVideo?.id)
             .expect(CodeResponsesEnum.OK_200, createdVideo)
     })
 
     it('- PUT product by ID with incorrect data', async () => {
         await request(app)
-            .put('/videos/' + createdVideo.id)
+            .put('/videos/' + createdVideo?.id)
             .send({title: '', author: 'title'})
             .expect(CodeResponsesEnum.Incorrect_values_400)
 
-        await request(app).get('/videos/' + createdVideo.id)
+        await request(app).get('/videos/' + createdVideo?.id)
             .expect(CodeResponsesEnum.OK_200, createdVideo)
     })
     it('- PUT product by incorrect ID', async () => {
@@ -83,7 +83,7 @@ describe('/videos', () => {
     })
     it('+ PUT product by ID with correct data', async () => {
         await request(app)
-            .put('/videos/' + createdVideo.id)
+            .put('/videos/' + createdVideo?.id)
             .send({
                 title: 'hello title',
                 author: 'hello author',
@@ -111,7 +111,7 @@ describe('/videos', () => {
     })
     it('+ DELETE product by correct ID', async () => {
         await request(app)
-            .delete('/videos/' + createdVideo.id)
+            .delete('/videos/' + createdVideo?.id)
             .expect(CodeResponsesEnum.No_content_204)
 
         const res = await request(app).get('/videos/')
