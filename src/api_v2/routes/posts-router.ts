@@ -14,7 +14,7 @@ export const postsRouter = Router({})
 
 postsRouter.get('/', (req: Request, res: Response) => {
     const result = postsRepo.findPosts()
-    if (result) {
+    if (result.length>0) {
         res.status(CodeResponsesEnum.OK_200).send(result)
     } else {
         res.sendStatus(CodeResponsesEnum.Not_found_404)
