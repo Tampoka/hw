@@ -1,6 +1,6 @@
-import crypto from 'crypto';
+import crypto, {randomUUID} from 'crypto';
 
-const uuid = crypto.randomUUID({disableEntropyCache: true})
+// const uuid = crypto.randomUUID({disableEntropyCache: true})
 
 export type BlogViewModel = {
     "id": string
@@ -45,7 +45,7 @@ export const blogsRepo = {
     },
     createBlog(name: string, description: string, websiteUrl: string) {
         const newBlog: BlogViewModel = {
-            id: uuid,
+            id: randomUUID(),
             name,
             description,
             websiteUrl
