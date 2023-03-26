@@ -30,11 +30,11 @@ export const blogsRepo = {
         }
         const result = await blogsCollection.insertOne(newBlog)
         return {
-            id: randomUUID(),
-            name,
-            description,
-            websiteUrl,
-            createdAt: (new Date().toISOString()),
+            id: newBlog.id,
+            name: newBlog.name,
+            description: newBlog.description,
+            websiteUrl: newBlog.websiteUrl,
+            createdAt: newBlog.createdAt,
             isMembership: false
         }
     },
