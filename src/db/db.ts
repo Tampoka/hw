@@ -8,6 +8,8 @@ export type BlogViewModel = {
     "name": string
     "description": string
     "websiteUrl": string
+    createdAt:string
+    isMembership:boolean
 }
 export type PostViewModel = {
     id: string
@@ -16,6 +18,7 @@ export type PostViewModel = {
     "title": string
     "shortDescription": string
     "content": string
+    createdAt:string
 }
 const mongoURI = process.env.MONGO_URL || 'mongodb://localhost:27017'
 console.log(process.env.MONGO_URL)

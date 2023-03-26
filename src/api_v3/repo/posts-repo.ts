@@ -28,7 +28,8 @@ export const postsRepo = {
                 shortDescription,
                 content,
                 blogId,
-                blogName: blog!.name
+                blogName: blog!.name,
+                createdAt:Date.now().toString(),
             }
             const result = postsCollection.insertOne(newPost)
             return newPost

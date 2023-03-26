@@ -24,7 +24,9 @@ export const blogsRepo = {
             id: randomUUID(),
             name,
             description,
-            websiteUrl
+            websiteUrl,
+            createdAt:Date.now().toString(),
+            isMembership:false
         }
         const result = await blogsCollection.insertOne(newBlog)
         return newBlog
