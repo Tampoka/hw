@@ -41,7 +41,7 @@ export const postsRepo = {
                 shortDescription: valuesToUpdate.shortDescription,
                 content: valuesToUpdate.content
             }
-        },)
+        })
         if (result.matchedCount === 1) {
             return await postsCollection.findOne({id}, {projection :{_id: false}})
         } else {
