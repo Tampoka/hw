@@ -25,7 +25,7 @@ export const blogsRepo = {
             name,
             description,
             websiteUrl,
-            createdAt:Date.now().toString(),
+            createdAt:(new Date().toISOString()),
             isMembership:false
         }
         const result = await blogsCollection.insertOne(newBlog)
