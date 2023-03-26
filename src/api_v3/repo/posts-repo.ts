@@ -22,6 +22,7 @@ export const postsRepo = {
     },
     async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewModel | boolean> {
         const blog = await blogsCollection.findOne({id: blogId})
+        if(blog) {
             const newPost: PostViewModel = {
                 id: randomUUID(),
                 title,
@@ -29,11 +30,13 @@ export const postsRepo = {
                 content,
                 blogId,
                 blogName: blog!.name,
-                createdAt:Date.now().toString(),
+                createdAt: Date.now().toString(),
             }
             const result = postsCollection.insertOne(newPost)
             return newPost
-
+        } else {
+            return false
+        }
     },
     async updatePost(id: string, valuesToUpdate: PostInputModel) {
         const result = await postsCollection.updateOne({id}, {
