@@ -1,6 +1,5 @@
 import {randomUUID} from 'crypto';
 import {blogsCollection, BlogViewModel} from '../../db/db';
-import {ObjectId} from 'mongodb';
 
 
 export type BlogInputModel = {
@@ -20,7 +19,7 @@ export const blogsRepo = {
             return false
         }
     },
-    async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogViewModel | null> {
+    async createBlog(name: string, description: string, websiteUrl: string): Promise<BlogViewModel> {
         const newBlog: BlogViewModel = {
             id: randomUUID(),
             name,
@@ -30,7 +29,14 @@ export const blogsRepo = {
             isMembership: false
         }
         const result = await blogsCollection.insertOne(newBlog)
-        return await blogsCollection.findOne({_id: result.insertedId}, {projection: {_id: false}})
+        return {
+            id: randomUUID(),
+            name,
+            description,
+            websiteUrl,
+            createdAt: (new Date().toISOString()),
+            isMembership: false
+        }
     },
     async updateBlog(id: string, valuesToUpdate: BlogInputModel): Promise<BlogViewModel | boolean | null> {
         const result = await blogsCollection.updateOne({id}, {

@@ -32,7 +32,13 @@ export const postsRepo = {
                 createdAt: (new Date().toISOString()),
             }
             const result = postsCollection.insertOne(newPost)
-            return newPost
+            return { id: randomUUID(),
+                title,
+                shortDescription,
+                content,
+                blogId,
+                blogName: blog!.name,
+                createdAt: (new Date().toISOString()),}
     },
     async updatePost(id: string, valuesToUpdate: PostInputModel) {
         const result = await postsCollection.updateOne({id}, {
