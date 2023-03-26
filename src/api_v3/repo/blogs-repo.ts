@@ -1,5 +1,6 @@
 import {randomUUID} from 'crypto';
 import {blogsCollection, BlogViewModel} from '../../db/db';
+import {ObjectId} from 'mongodb';
 
 
 export type BlogInputModel = {
@@ -9,10 +10,10 @@ export type BlogInputModel = {
 }
 export const blogsRepo = {
     async findBlogs(): Promise<BlogViewModel[]> {
-        return await blogsCollection.find({}).toArray()
+        return await blogsCollection.find({}, {projection :{_id: false}}).toArray()
     },
     async findBlog(id: string): Promise<BlogViewModel | null | boolean> {
-        const blog = blogsCollection.findOne({id})
+        const blog = blogsCollection.findOne({id}, {projection :{_id: false}})
         if (blog) {
             return blog
         } else {
@@ -40,7 +41,7 @@ export const blogsRepo = {
             }
         })
         if (result.matchedCount === 1) {
-            return await blogsCollection.findOne({id})
+            return await blogsCollection.findOne({id}, {projection :{_id: false}})
         } else {
             return false
         }

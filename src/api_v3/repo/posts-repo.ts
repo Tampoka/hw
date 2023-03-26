@@ -10,10 +10,10 @@ export type PostInputModel = {
 
 export const postsRepo = {
     async findPosts(): Promise<PostViewModel[]> {
-        return await postsCollection.find({}).toArray()
+        return await postsCollection.find({}, {projection :{_id: false}}).toArray()
     },
     async findPost(id: string): Promise<PostViewModel | null | boolean> {
-        const post = postsCollection.findOne({id})
+        const post = postsCollection.findOne({id}, {projection :{_id: false}})
         if (post) {
             return post
         } else {
@@ -22,7 +22,6 @@ export const postsRepo = {
     },
     async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewModel | boolean> {
         const blog = await blogsCollection.findOne({id: blogId})
-        if(blog) {
             const newPost: PostViewModel = {
                 id: randomUUID(),
                 title,
@@ -34,9 +33,6 @@ export const postsRepo = {
             }
             const result = postsCollection.insertOne(newPost)
             return newPost
-        } else {
-            return false
-        }
     },
     async updatePost(id: string, valuesToUpdate: PostInputModel) {
         const result = await postsCollection.updateOne({id}, {
@@ -47,7 +43,7 @@ export const postsRepo = {
             }
         })
         if (result.matchedCount === 1) {
-            return await postsCollection.findOne({id})
+            return await postsCollection.findOne({id}, {projection :{_id: false}})
         } else {
             return false
         }
