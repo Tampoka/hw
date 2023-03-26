@@ -1,6 +1,5 @@
 import {Response, Request, NextFunction} from 'express';
 import {body, ValidationError, validationResult} from 'express-validator';
-import {postsRepo} from '../repo/posts-repo';
 import {blogsRepo} from '../repo/blogs-repo';
 
 const errorFormatter = ({msg}: ValidationError) => {
@@ -35,8 +34,8 @@ export const blogIdValidation = body('blogId').isString().trim().isLength({
 }).withMessage({
     message: 'Post blogId should be from 1 symbol',
     field: 'blogId'
-}).custom(value => {
-    const blog = blogsRepo.findBlog(value)
+}).custom(async value => {
+    const blog = await blogsRepo.findBlog(value)
     if (!blog) {
         return Promise.reject('')
     }
