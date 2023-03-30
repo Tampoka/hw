@@ -7,12 +7,13 @@ import {
     websiteUrlValidation
 } from '../middleware/blog-input-validation';
 import {authMiddleware} from '../middleware/isAuth';
-import {blogsService} from '../../domain/blogs-service';
+import {blogsService} from '../domain/blogs-service';
 
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', async (req: Request, res: Response) => {
-    const result = await blogsService.findBlogs()
+    const name=req.query.searchNameTerm?.toString()
+    const result = await blogsService.findBlogs(name)
     res.status(CodeResponsesEnum.OK_200).send(result)
 })
 blogsRouter.get('/:id', async (req: Request, res: Response) => {
@@ -25,9 +26,6 @@ blogsRouter.get('/:id', async (req: Request, res: Response) => {
 })
 
 blogsRouter.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
-    // if (!req.params.id) {
-    //     res.status(CodeResponsesEnum.Not_found_404)
-    // }
     let result = await blogsService.deleteBlog(req.params.id);
     if (result) {
         // await postsRepo.deleteBlogAllPosts(req.params.id)

@@ -8,8 +8,8 @@ export type BlogViewModel = {
     "name": string
     "description": string
     "websiteUrl": string
-    createdAt:string
-    isMembership:boolean
+    createdAt?: string
+    isMembership?: boolean
 }
 export type PostViewModel = {
     id: string
@@ -18,15 +18,21 @@ export type PostViewModel = {
     "title": string
     "shortDescription": string
     "content": string
-    createdAt:string
+    createdAt?: string
 }
+
+export enum SortDirections {
+    asc = 1,
+    desc = -1
+}
+
 const mongoURI = process.env.MONGO_URL || 'mongodb://localhost:27017'
 console.log(process.env.MONGO_URL)
 
 const client = new MongoClient(mongoURI)
-const db=client.db('backend-dev')
-export const blogsCollection=db.collection<BlogViewModel>('blogs')
-export const postsCollection=db.collection<PostViewModel>('posts')
+const db = client.db('backend-dev')
+export const blogsCollection = db.collection<BlogViewModel>('blogs')
+export const postsCollection = db.collection<PostViewModel>('posts')
 
 
 export const runDb = async () => {

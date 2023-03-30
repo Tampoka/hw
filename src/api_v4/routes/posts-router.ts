@@ -8,16 +8,22 @@ import {
     shortDescriptionValidation,
     titleValidation
 } from '../middleware/post-input-validation';
-import {postsRepo} from '../repo/posts-repo';
+import {postsService} from '../domain/posts-service';
+import {SortDirections} from '../../db/db';
 
 export const postsRouter = Router({})
 
 postsRouter.get('/', async (req: Request, res: Response) => {
-    const result = await postsRepo.findPosts()
-        res.status(CodeResponsesEnum.OK_200).send(result)
+    const title = req.query.searchNameTerm?.toString()
+    const sortBy = req.query.sortBy?.toString()
+    const sortDirection = req.query.sortDirection?.toString() as (keyof typeof SortDirections)
+    const pageNumber = req.query.pageNumber?.toString
+    const pageSize = req.query.pageSize?.toString()
+    const result = await postsService.findPosts(title, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
+    res.status(CodeResponsesEnum.OK_200).send(result)
 })
 postsRouter.get('/:id', async (req: Request, res: Response) => {
-    const result = await postsRepo.findPost(req.params.id)
+    const result = await postsService.findPost(req.params.id)
     if (result) {
         res.status(CodeResponsesEnum.OK_200).send(result)
     } else {
@@ -26,10 +32,7 @@ postsRouter.get('/:id', async (req: Request, res: Response) => {
 })
 
 postsRouter.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
-    // if (!req.params.id) {
-    //     res.status(CodeResponsesEnum.Not_found_404)
-    // }
-    let result = await postsRepo.deletePost(req.params.id);
+    let result = await postsService.deletePost(req.params.id);
     if (result) {
         res.sendStatus(CodeResponsesEnum.No_content_204)
     } else {
@@ -37,16 +40,16 @@ postsRouter.delete('/:id', authMiddleware, async (req: Request, res: Response) =
     }
 })
 postsRouter.post('/', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, async (req: Request, res: Response) => {
-    const result = await postsRepo.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
+    const result = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
     res.status(CodeResponsesEnum.Created_201).send(result)
 })
 postsRouter.put('/:id', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, async (req: Request, res: Response) => {
-    if (!req.params.id) {
-        res.status(CodeResponsesEnum.Not_found_404)
-    }
+    // if (!req.params.id) {
+    //     res.status(CodeResponsesEnum.Not_found_404)
+    // }
     const valuesToUpdate = req.body
 
-    const result = await postsRepo.updatePost(req.params.id, valuesToUpdate)
+    const result = await postsService.updatePost(req.params.id, valuesToUpdate)
     if (result) {
         res.sendStatus(CodeResponsesEnum.No_content_204)
     } else {

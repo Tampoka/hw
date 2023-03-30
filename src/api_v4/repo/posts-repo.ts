@@ -1,5 +1,5 @@
-import {randomUUID} from 'crypto';
-import {blogsCollection, postsCollection, PostViewModel} from '../../db/db';
+import {postsCollection, PostViewModel, SortDirections} from '../../db/db';
+import {InsertOneResult} from 'mongodb';
 
 export type PostInputModel = {
     "title": string
@@ -9,38 +9,19 @@ export type PostInputModel = {
 }
 
 export const postsRepo = {
-    async findPosts(): Promise<PostViewModel[]> {
-        return await postsCollection.find({}, {projection: {_id: false}}).toArray()
+    async findPosts(title?: string, sortBy: string = 'createdAt', sortDirection: keyof typeof SortDirections = 'desc', pageNumber: number = 1, pageSize: number = 10): Promise<PostViewModel[]> {
+        const filter: any = {}
+        if (title) {
+            filter.title = {$regex: title, $options: 'i'}
+        }
+        return postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip(pageNumber > 0 ? ( ( pageNumber - 1 ) * pageSize ) : 0 ).limit(pageSize).toArray()
     },
-    async findPost(id: string): Promise<PostViewModel | null | boolean> {
+    async findPost(id: string): Promise<PostViewModel | null> {
         const post = postsCollection.findOne({id}, {projection: {_id: false}})
-        if (post) {
-            return post
-        } else {
-            return false
-        }
+        return post
     },
-    async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewModel | boolean> {
-        const blog = await blogsCollection.findOne({id: blogId})
-        const newPost: PostViewModel = {
-            id: randomUUID(),
-            title,
-            shortDescription,
-            content,
-            blogId,
-            blogName: blog!.name,
-            createdAt: (new Date().toISOString()),
-        }
-        const result = await postsCollection.insertOne(newPost)
-        return {
-            id: newPost.id,
-            title: newPost.title,
-            shortDescription: newPost.shortDescription,
-            content: newPost.content,
-            blogId: newPost.blogId,
-            blogName: newPost.blogName,
-            createdAt: newPost.createdAt,
-        }
+    async createPost(newPost: PostViewModel): Promise<InsertOneResult<PostViewModel>> {
+        return postsCollection.insertOne(newPost)
     },
     async updatePost(id: string, valuesToUpdate: PostInputModel) {
         const result = await postsCollection.updateOne({id}, {
