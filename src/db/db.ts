@@ -26,10 +26,10 @@ export enum SortDirections {
     desc = -1
 }
 
-const mongoURI = process.env.MONGO_URL || 'mongodb://localhost:27017'
-console.log(process.env.MONGO_URL)
+const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017'
+// console.log(process.env.MONGO_URL)
 
-const client = new MongoClient(mongoURI)
+const client = new MongoClient(mongoURL)
 const db = client.db('backend-dev')
 export const blogsCollection = db.collection<BlogViewModel>('blogs')
 export const postsCollection = db.collection<PostViewModel>('posts')
