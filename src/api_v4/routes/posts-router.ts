@@ -41,7 +41,8 @@ postsRouter.delete('/:id', authMiddleware, async (req: Request, res: Response) =
 })
 postsRouter.post('/', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, async (req: Request, res: Response) => {
     const result = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
-    res.status(CodeResponsesEnum.Created_201).send(result)
+    const newPost = await postsService.findPost(result.insertedId.toString())
+    res.status(CodeResponsesEnum.Created_201).send(newPost)
 })
 postsRouter.put('/:id', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, async (req: Request, res: Response) => {
     // if (!req.params.id) {

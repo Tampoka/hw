@@ -29,6 +29,7 @@ export const blogsRepo = {
     },
     async createBlog(newBlog: BlogViewModel): Promise<InsertOneResult<BlogViewModel>> {
         return blogsCollection.insertOne(newBlog)
+
     },
     async updateBlog(id: string, valuesToUpdate: BlogInputModel): Promise<BlogViewModel | boolean | null> {
         const result = await blogsCollection.updateOne({id}, {

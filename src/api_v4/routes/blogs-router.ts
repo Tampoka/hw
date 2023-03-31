@@ -12,7 +12,7 @@ import {blogsService} from '../domain/blogs-service';
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', async (req: Request, res: Response) => {
-    const name=req.query.searchNameTerm?.toString()
+    const name = req.query.searchNameTerm?.toString()
     const result = await blogsService.findBlogs(name)
     res.status(CodeResponsesEnum.OK_200).send(result)
 })
@@ -36,7 +36,8 @@ blogsRouter.delete('/:id', authMiddleware, async (req: Request, res: Response) =
 })
 blogsRouter.post('/', authMiddleware, nameValidation, descriptionValidation, websiteUrlValidation, blogInputValidationMiddleware, async (req: Request, res: Response) => {
     const result = await blogsService.createBlog(req.body.name, req.body.description, req.body.websiteUrl)
-    res.status(CodeResponsesEnum.Created_201).send(result)
+    const newBlog = await blogsService.findBlog(result.insertedId.toString())
+    res.status(CodeResponsesEnum.Created_201).send(newBlog)
 })
 blogsRouter.put('/:id', authMiddleware, nameValidation, descriptionValidation, websiteUrlValidation, blogInputValidationMiddleware, async (req: Request, res: Response) => {
     // if (!req.params.id) {
