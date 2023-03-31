@@ -15,7 +15,7 @@ export const postsRepo = {
         if (title) {
             filter.title = {$regex: title, $options: 'i'}
         }
-        const posts = await postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip(pageNumber > 0 ? ((pageNumber - 1) * pageSize) : 0).limit(pageSize|0).toArray()
+        const posts = await postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
         const postsWithPaginator: Paginator<PostViewModel> = {
             pagesCount: Math.ceil(posts.length / pageSize),
             page: pageNumber,
