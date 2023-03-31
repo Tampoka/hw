@@ -1,5 +1,5 @@
 import {randomUUID} from 'crypto';
-import {blogsRepo} from '../repo/blogs-repo';
+import {blogsRepo, Paginator} from '../repo/blogs-repo';
 import {BlogViewModel} from '../../db/db';
 import {InsertOneResult, ObjectId} from 'mongodb';
 
@@ -10,7 +10,7 @@ export type BlogInputModel = {
     "websiteUrl": string
 }
 export const blogsService = {
-    async findBlogs(name?:string): Promise<BlogViewModel[]> {
+    async findBlogs(name?:string): Promise<Paginator<BlogViewModel>> {
         return blogsRepo.findBlogs(name)
     },
     async findBlog(id: string): Promise<BlogViewModel | null> {

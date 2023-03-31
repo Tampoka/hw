@@ -3,6 +3,7 @@ import {PostViewModel, SortDirections} from '../../db/db';
 import {postsRepo} from '../repo/posts-repo';
 import {blogsService} from './blogs-service';
 import {InsertOneResult, ObjectId} from 'mongodb';
+import {Paginator} from '../repo/blogs-repo';
 
 export type PostInputModel = {
     "title": string
@@ -12,8 +13,8 @@ export type PostInputModel = {
 }
 
 export const postsService = {
-    async findPosts(title?:string,sortBy?:string,sortDirection?:keyof typeof SortDirections,pageNumber?:number,pageSize?:number): Promise<PostViewModel[]> {
-        return postsRepo.findPosts(title,sortBy,sortDirection,pageNumber,pageSize)
+    async findPosts(title?: string, sortBy?: string, sortDirection?: keyof typeof SortDirections, pageNumber?: number, pageSize?: number): Promise<Paginator<PostViewModel>> {
+        return postsRepo.findPosts(title, sortBy, sortDirection, pageNumber, pageSize)
     },
     async findPost(id: string): Promise<PostViewModel | null> {
         return postsRepo.findPost(id)
