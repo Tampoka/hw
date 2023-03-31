@@ -20,7 +20,7 @@ export const postsRepo = {
             pagesCount: Math.ceil(posts.length / pageSize),
             page: pageNumber,
             pageSize: pageSize,
-            totalCount: posts.length,
+            totalCount: await postsCollection.count(),
             items: posts
         }
         return postsWithPaginator

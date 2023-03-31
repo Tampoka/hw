@@ -26,7 +26,7 @@ export const blogsRepo = {
             pagesCount:Math.ceil(blogs.length/pageSize),
             page:pageNumber,
             pageSize:pageSize,
-            totalCount:blogs.length,
+            totalCount:await blogsCollection.count(),
             items:blogs
         }
         return blogsWithPagination
