@@ -1,5 +1,5 @@
 import {postsCollection, PostViewModel, SortDirections} from '../../db/db';
-import {InsertOneResult} from 'mongodb';
+import {InsertOneResult, ObjectId} from 'mongodb';
 
 export type PostInputModel = {
     "title": string
@@ -14,10 +14,14 @@ export const postsRepo = {
         if (title) {
             filter.title = {$regex: title, $options: 'i'}
         }
-        return postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip(pageNumber > 0 ? ( ( pageNumber - 1 ) * pageSize ) : 0 ).limit(pageSize).toArray()
+        return postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip(pageNumber > 0 ? ((pageNumber - 1) * pageSize) : 0).limit(pageSize).toArray()
     },
     async findPost(id: string): Promise<PostViewModel | null> {
         const post = postsCollection.findOne({id}, {projection: {_id: false}})
+        return post
+    },
+    async findNewlyCreatedPost(id: ObjectId): Promise<PostViewModel | null> {
+        const post = postsCollection.findOne({_id: id}, {projection: {_id: false}})
         return post
     },
     async createPost(newPost: PostViewModel): Promise<InsertOneResult<PostViewModel>> {

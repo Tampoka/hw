@@ -2,7 +2,7 @@ import {randomUUID} from 'crypto';
 import {PostViewModel, SortDirections} from '../../db/db';
 import {postsRepo} from '../repo/posts-repo';
 import {blogsService} from './blogs-service';
-import {InsertOneResult} from 'mongodb';
+import {InsertOneResult, ObjectId} from 'mongodb';
 
 export type PostInputModel = {
     "title": string
@@ -17,6 +17,9 @@ export const postsService = {
     },
     async findPost(id: string): Promise<PostViewModel | null> {
         return postsRepo.findPost(id)
+    },
+    async findNewlyCreatedPostPost(id: ObjectId): Promise<PostViewModel | null> {
+        return postsRepo.findNewlyCreatedPost(id)
     },
     async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<InsertOneResult<PostViewModel>> {
         const blog = await blogsService.findBlog(blogId)

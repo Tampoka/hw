@@ -36,7 +36,7 @@ blogsRouter.delete('/:id', authMiddleware, async (req: Request, res: Response) =
 })
 blogsRouter.post('/', authMiddleware, nameValidation, descriptionValidation, websiteUrlValidation, blogInputValidationMiddleware, async (req: Request, res: Response) => {
     const result = await blogsService.createBlog(req.body.name, req.body.description, req.body.websiteUrl)
-    const newBlog = await blogsService.findBlog(result.insertedId.toString())
+    const newBlog = await blogsService.findNewlyCreatedBlog(result.insertedId)
     res.status(CodeResponsesEnum.Created_201).send(newBlog)
 })
 blogsRouter.put('/:id', authMiddleware, nameValidation, descriptionValidation, websiteUrlValidation, blogInputValidationMiddleware, async (req: Request, res: Response) => {

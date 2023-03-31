@@ -1,5 +1,5 @@
 import {blogsCollection, BlogViewModel, SortDirections} from '../../db/db';
-import {InsertOneResult} from 'mongodb';
+import {InsertOneResult, ObjectId} from 'mongodb';
 
 
 export type BlogInputModel = {
@@ -25,6 +25,10 @@ export const blogsRepo = {
     },
     async findBlog(id: string): Promise<BlogViewModel | null> {
         const blog = blogsCollection.findOne({id}, {projection: {_id: false}})
+        return blog
+    },
+    async findNewlyCreatedBlog(id: ObjectId): Promise<BlogViewModel | null> {
+        const blog = blogsCollection.findOne({_id:id}, {projection: {_id: false}})
         return blog
     },
     async createBlog(newBlog: BlogViewModel): Promise<InsertOneResult<BlogViewModel>> {
