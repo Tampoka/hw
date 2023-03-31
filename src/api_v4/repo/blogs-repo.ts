@@ -21,7 +21,7 @@ export const blogsRepo = {
         if (name) {
             filter.name = {$regex: name, $options: 'i'}
         }
-        const blogs= await blogsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip( ( pageNumber - 1 ) * pageSize  ).limit(pageSize).toArray()
+        const blogs= await blogsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip( ( pageNumber - 1 ) * pageSize  ).limit(0).toArray()
         const totalCount=await blogsCollection.count()
         const blogsWithPagination:Paginator<BlogViewModel>={
             pagesCount:Math.ceil(totalCount/pageSize),
