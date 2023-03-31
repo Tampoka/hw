@@ -22,8 +22,8 @@ export type PostViewModel = {
 }
 
 export enum SortDirections {
-    asc = 1,
-    desc = -1
+    asc = -1,
+    desc = 1
 }
 
 const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017'
