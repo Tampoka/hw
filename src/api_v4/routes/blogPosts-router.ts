@@ -11,6 +11,8 @@ import {
 import {postsRepo} from '../repo/posts-repo';
 import {SortDirections} from '../../db/db';
 import {postsService} from '../domain/posts-service';
+import {blogPostInputValidationMiddleware} from '../middleware/blogPostInputValidation';
+import {blogsService} from '../domain/blogs-service';
 
 export const blogPostsRouter = Router({})
 
@@ -20,8 +22,14 @@ blogPostsRouter.get('/', async (req: Request, res: Response) => {
     const sortDirection = req.query.sortDirection?.toString() as (keyof typeof SortDirections)
     const pageNumber = req.query.pageNumber?.toString
     const pageSize = req.query.pageSize?.toString()
-    const result = await postsService.findBlogPosts(blogId, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
-    res.status(CodeResponsesEnum.OK_200).send(result)
+    const checkBlogId = await blogsService.findBlog(blogId)
+    if (!checkBlogId) {
+        res.sendStatus(CodeResponsesEnum.Not_found_404)
+    } else {
+        const result = await postsService.findBlogPosts(blogId, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
+        res.status(CodeResponsesEnum.OK_200).send(result)
+    }
+
 })
 // blogPostsRouter.get('/', async (req: Request, res: Response) => {
 //     const result = await postsRepo.findPost(req.params.id)
@@ -43,9 +51,14 @@ blogPostsRouter.get('/', async (req: Request, res: Response) => {
 //         res.sendStatus(CodeResponsesEnum.Not_found_404)
 //     }
 // })
-blogPostsRouter.post('/', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, postInputValidationMiddleware, async (req: Request, res: Response) => {
-    const result = await postsService.createBlogPost(req.body.title, req.body.shortDescription, req.body.content, req.params.id)
-    const newPost = await postsService.findNewlyCreatedPostPost(result.insertedId)
-    res.status(CodeResponsesEnum.Created_201).send(newPost)
+blogPostsRouter.post('/', authMiddleware, titleValidation, shortDescriptionValidation, contentValidation, blogPostInputValidationMiddleware, async (req: Request, res: Response) => {
+    const checkBlogId = await blogsService.findBlog(req.params.id)
+    if (!checkBlogId) {
+        res.sendStatus(CodeResponsesEnum.Not_found_404)
+    } else{
+        const result = await postsService.createBlogPost(req.body.title, req.body.shortDescription, req.body.content, req.params.id)
+        const newPost = await postsService.findNewlyCreatedPostPost(result.insertedId)
+        res.status(CodeResponsesEnum.Created_201).send(newPost)
+    }
 })
 
