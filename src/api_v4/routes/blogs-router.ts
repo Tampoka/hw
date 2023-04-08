@@ -8,12 +8,17 @@ import {
 } from '../middleware/blog-input-validation';
 import {authMiddleware} from '../middleware/isAuth';
 import {blogsService} from '../domain/blogs-service';
+import {SortDirections} from '../../db/db';
 
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', async (req: Request, res: Response) => {
     const name = req.query.searchNameTerm?.toString()
-    const result = await blogsService.findBlogs(name)
+    const sortBy = req.query.sortBy?.toString()
+    const sortDirection = req.query.sortDirection?.toString() as (keyof typeof SortDirections)
+    const pageNumber = req.query.pageNumber?.toString
+    const pageSize = req.query.pageSize?.toString()
+    const result = await blogsService.findBlogs(name, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
     res.status(CodeResponsesEnum.OK_200).send(result)
 })
 blogsRouter.get('/:id', async (req: Request, res: Response) => {

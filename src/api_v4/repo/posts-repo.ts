@@ -15,16 +15,28 @@ export const postsRepo = {
         if (title) {
             filter.title = {$regex: title, $options: 'i'}
         }
-        const posts = await postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: sortDirection}).skip((pageNumber - 1) * pageSize).limit(0).toArray()
-       const totalCount = await postsCollection.count()
+        const posts = await postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip((pageNumber - 1) * pageSize).limit(0).toArray()
+        const totalCount = await postsCollection.count()
         const postsWithPaginator: Paginator<PostViewModel> = {
-            pagesCount: Math.ceil(totalCount/ pageSize),
+            pagesCount: Math.ceil(totalCount / pageSize),
             page: pageNumber,
             pageSize: pageSize,
             totalCount: totalCount,
             items: posts
         }
         return postsWithPaginator
+    },
+    async findBlogPosts(blogId: string, sortBy: string = 'createdAt', sortDirection: keyof typeof SortDirections = 'desc', pageNumber: number = 1, pageSize: number = 10): Promise<Paginator<PostViewModel>> {
+        const posts = await postsCollection.find({blogId}, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip((pageNumber - 1) * pageSize).limit(0).toArray()
+        const totalCount = posts.length
+        const blogPostsWithPaginator: Paginator<PostViewModel> = {
+            pagesCount: Math.ceil(totalCount / pageSize),
+            page: pageNumber,
+            pageSize: pageSize,
+            totalCount: totalCount,
+            items: posts
+        }
+        return blogPostsWithPaginator
     },
     async findPost(id: string): Promise<PostViewModel | null> {
         const post = postsCollection.findOne({id}, {projection: {_id: false}})

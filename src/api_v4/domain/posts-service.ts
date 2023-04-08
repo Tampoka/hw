@@ -22,7 +22,23 @@ export const postsService = {
     async findNewlyCreatedPostPost(id: ObjectId): Promise<PostViewModel | null> {
         return postsRepo.findNewlyCreatedPost(id)
     },
+    async findBlogPosts(blogId: string, sortBy?: string, sortDirection?: keyof typeof SortDirections, pageNumber?: number, pageSize?: number): Promise<Paginator<PostViewModel>> {
+        return postsRepo.findBlogPosts(blogId, sortBy, sortDirection, pageNumber, pageSize)
+    },
     async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<InsertOneResult<PostViewModel>> {
+        const blog = await blogsService.findBlog(blogId)
+        const newPost: PostViewModel = {
+            id: randomUUID(),
+            title,
+            shortDescription,
+            content,
+            blogId,
+            blogName: blog!.name,
+            createdAt: (new Date().toISOString()),
+        }
+        return postsRepo.createPost(newPost)
+    },
+    async createBlogPost(title: string, shortDescription: string, content: string, blogId: string): Promise<InsertOneResult<PostViewModel>> {
         const blog = await blogsService.findBlog(blogId)
         const newPost: PostViewModel = {
             id: randomUUID(),
