@@ -23,14 +23,14 @@ blogPostsRouter.get('/', async (req: Request, res: Response) => {
     const result = await postsService.findBlogPosts(blogId, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
     res.status(CodeResponsesEnum.OK_200).send(result)
 })
-blogPostsRouter.get('/', async (req: Request, res: Response) => {
-    const result = await postsRepo.findPost(req.params.id)
-    if (result) {
-        res.status(CodeResponsesEnum.OK_200).send(result)
-    } else {
-        res.sendStatus(CodeResponsesEnum.Not_found_404)
-    }
-})
+// blogPostsRouter.get('/', async (req: Request, res: Response) => {
+//     const result = await postsRepo.findPost(req.params.id)
+//     if (result) {
+//         res.status(CodeResponsesEnum.OK_200).send(result)
+//     } else {
+//         res.sendStatus(CodeResponsesEnum.Not_found_404)
+//     }
+// })
 //
 // postsRouter.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
 //     // if (!req.params.id) {
