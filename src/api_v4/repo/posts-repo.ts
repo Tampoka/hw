@@ -22,7 +22,7 @@ export const postsRepo = {
         const sortConfig = {[sortBy]: sortDir}
         // @ts-ignore
         const posts = await postsCollection.find(filter, {projection: {_id: false}}).sort(sortConfig).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
-        const totalCount = await postsCollection.countDocuments()
+        const totalCount =title? await postsCollection.countDocuments(filter):await postsCollection.countDocuments()
         const postsWithPaginator: Paginator<PostViewModel> = {
             pagesCount: Math.ceil(totalCount / pageSize),
             page: pageNumber,
@@ -38,7 +38,7 @@ export const postsRepo = {
         const sortConfig = {[sortBy]: sortDir}
         // @ts-ignore
         const posts = await postsCollection.find({blogId}, {projection: {_id: false}}).sort(sortConfig).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
-        const totalCount = posts.length
+        const totalCount = await postsCollection.countDocuments({blogId})
         const blogPostsWithPaginator: Paginator<PostViewModel> = {
             pagesCount: Math.ceil(totalCount / pageSize),
             page: pageNumber,

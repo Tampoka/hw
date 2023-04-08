@@ -27,7 +27,7 @@ export const blogsRepo = {
         const sortConfig = {[sortBy]: sortDir}
         // @ts-ignore
         const blogs= await blogsCollection.find(filter, {projection: {_id: false}}).sort(sortConfig).skip( ( pageNumber - 1 ) * pageSize  ).limit(pageSize).toArray()
-        const totalCount=await blogsCollection.countDocuments()
+        const totalCount =name? await blogsCollection.countDocuments(filter):await blogsCollection.countDocuments()
         const blogsWithPagination:Paginator<BlogViewModel>={
             pagesCount:Math.ceil(totalCount/pageSize),
             page:pageNumber,
