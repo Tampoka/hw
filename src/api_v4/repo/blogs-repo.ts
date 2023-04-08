@@ -14,15 +14,16 @@ export type Paginator<T> = {
     totalCount?: number
     items: T[]
 }
-export const blogsRepo = {
 
-    async findBlogs(name?: string,sortBy: string = 'createdAt', sortDirection: keyof typeof SortDirections ="desc", pageNumber: number = 1, pageSize: number = 10): Promise<Paginator<BlogViewModel>> {
+export const blogsRepo = {
+// @ts-ignore
+    async findBlogs(name?: string,sortBy: string, sortDirection: keyof typeof SortDirections, pageNumber: number, pageSize: number): Promise<Paginator<BlogViewModel>> {
         const filter: any = {}
         if (name) {
             filter.name = {$regex: name, $options: 'i'}
         }
         const blogs= await blogsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip( ( pageNumber - 1 ) * pageSize  ).limit(0).toArray()
-        const totalCount=await blogsCollection.count()
+        const totalCount=await blogsCollection.countDocuments()
         const blogsWithPagination:Paginator<BlogViewModel>={
             pagesCount:Math.ceil(totalCount/pageSize),
             page:pageNumber,

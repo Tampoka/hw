@@ -15,10 +15,10 @@ export const postsRouter = Router({})
 
 postsRouter.get('/', async (req: Request, res: Response) => {
     const title = req.query.searchNameTerm?.toString()
-    const sortBy = req.query.sortBy?.toString()
-    const sortDirection = req.query.sortDirection?.toString() as (keyof typeof SortDirections)
-    const pageNumber = req.query.pageNumber?.toString
-    const pageSize = req.query.pageSize?.toString()
+    const sortBy = req.query.sortBy??'createdAt'
+    const sortDirection = req.query.sortDirection??'desc' as (keyof typeof SortDirections)
+    const pageNumber = req.query.pageNumber??1
+    const pageSize = req.query.pageSize??10
     const result = await postsService.findPosts(title, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
     res.status(CodeResponsesEnum.OK_200).send(result)
 })

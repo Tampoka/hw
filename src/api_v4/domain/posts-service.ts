@@ -12,8 +12,10 @@ export type PostInputModel = {
     "content": string
 }
 
+
 export const postsService = {
-    async findPosts(title?: string, sortBy?: string, sortDirection?: keyof typeof SortDirections, pageNumber?: number, pageSize?: number): Promise<Paginator<PostViewModel>> {
+    // @ts-ignore
+    async findPosts(title?: string, sortBy: keyof  PostViewModel, sortDirection: keyof typeof SortDirections , pageNumber: number, pageSize: number): Promise<Paginator<PostViewModel>> {
         return postsRepo.findPosts(title, sortBy, sortDirection, pageNumber, pageSize)
     },
     async findPost(id: string): Promise<PostViewModel | null> {
@@ -22,7 +24,7 @@ export const postsService = {
     async findNewlyCreatedPostPost(id: ObjectId): Promise<PostViewModel | null> {
         return postsRepo.findNewlyCreatedPost(id)
     },
-    async findBlogPosts(blogId: string, sortBy?: string, sortDirection?: keyof typeof SortDirections, pageNumber?: number, pageSize?: number): Promise<Paginator<PostViewModel>> {
+    async findBlogPosts(blogId: string, sortBy:keyof  PostViewModel, sortDirection: keyof typeof SortDirections, pageNumber: number, pageSize: number): Promise<Paginator<PostViewModel>> {
         return postsRepo.findBlogPosts(blogId, sortBy, sortDirection, pageNumber, pageSize)
     },
     async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<InsertOneResult<PostViewModel>> {

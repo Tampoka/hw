@@ -8,23 +8,23 @@ import {
 } from '../middleware/blog-input-validation';
 import {authMiddleware} from '../middleware/isAuth';
 import {blogsService} from '../domain/blogs-service';
-import {SortDirections} from '../../db/db';
+import {PostViewModel, SortDirections} from '../../db/db';
 import {postsService} from '../domain/posts-service';
 import {
+    blogPostInputValidationMiddleware,
     contentValidation,
     shortDescriptionValidation,
     titleValidation
 } from '../middleware/blog-post-Input-validation';
-import {blogPostInputValidationMiddleware} from '../middleware/blog-post-Input-validation';
 
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', async (req: Request, res: Response) => {
     const name = req.query.searchNameTerm?.toString()
-    const sortBy = req.query.sortBy?.toString()
-    const sortDirection = req.query.sortDirection?.toString() as (keyof typeof SortDirections)
-    const pageNumber = req.query.pageNumber?.toString
-    const pageSize = req.query.pageSize?.toString()
+    const sortBy = req.query.sortBy??'createdAt'
+    const sortDirection = req.query.sortDirection??'desc' as (keyof typeof SortDirections)
+    const pageNumber = req.query.pageNumber??1
+    const pageSize = req.query.pageSize??10
     const result = await blogsService.findBlogs(name, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
     res.status(CodeResponsesEnum.OK_200).send(result)
 })
@@ -71,10 +71,11 @@ blogsRouter.get('/:id/posts', async (req: Request, res: Response) => {
     if (!checkBlogId) {
         res.sendStatus(CodeResponsesEnum.Not_found_404)
     } else {
-        const sortBy = req.query.sortBy?.toString()
-        const sortDirection = req.query.sortDirection?.toString() as (keyof typeof SortDirections)
-        const pageNumber = req.query.pageNumber?.toString
-        const pageSize = req.query.pageSize?.toString()
+        const sortBy = req.query.sortBy??'createdAt' as (keyof  PostViewModel)
+        const sortDirection = req.query.sortDirection??'desc' as (keyof typeof SortDirections)
+        const pageNumber = req.query.pageNumber??1
+        const pageSize = req.query.pageSize??10
+        // @ts-ignore
         const result = await postsService.findBlogPosts(blogId, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
         res.status(CodeResponsesEnum.OK_200).send(result)
     }

@@ -1,6 +1,6 @@
 import {randomUUID} from 'crypto';
 import {blogsRepo, Paginator} from '../repo/blogs-repo';
-import {BlogViewModel, SortDirections} from '../../db/db';
+import {BlogViewModel} from '../../db/db';
 import {InsertOneResult, ObjectId} from 'mongodb';
 
 
@@ -9,8 +9,10 @@ export type BlogInputModel = {
     "description": string
     "websiteUrl": string
 }
+
 export const blogsService = {
-    async findBlogs(name?:string,sortBy?: string, sortDirection?: keyof typeof SortDirections, pageNumber?: number, pageSize?: number): Promise<Paginator<BlogViewModel>> {
+    // @ts-ignore
+    async findBlogs(name?: string, sortBy: string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[], sortDirection: string | string[] | QueryString.ParsedQs | QueryString.ParsedQs[], pageNumber: number, pageSize: number): Promise<Paginator<BlogViewModel>> {
         return blogsRepo.findBlogs(name, sortBy, sortDirection, pageNumber, pageSize)
     },
     async findBlog(id: string): Promise<BlogViewModel | null> {

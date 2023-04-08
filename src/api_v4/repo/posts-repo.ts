@@ -9,14 +9,16 @@ export type PostInputModel = {
     "content": string
 }
 
+
 export const postsRepo = {
-    async findPosts(title?: string, sortBy: string = 'createdAt', sortDirection: keyof typeof SortDirections = 'desc', pageNumber: number = 1, pageSize: number = 10): Promise<Paginator<PostViewModel>> {
+    // @ts-ignore
+    async findPosts(title?: string | undefined, sortBy: string, sortDirection: keyof typeof SortDirections, pageNumber: number, pageSize: number): Promise<Paginator<PostViewModel>> {
         const filter: any = {}
         if (title) {
             filter.title = {$regex: title, $options: 'i'}
         }
         const posts = await postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip((pageNumber - 1) * pageSize).limit(0).toArray()
-        const totalCount = await postsCollection.count()
+        const totalCount = await postsCollection.countDocuments()
         const postsWithPaginator: Paginator<PostViewModel> = {
             pagesCount: Math.ceil(totalCount / pageSize),
             page: pageNumber,
@@ -26,7 +28,7 @@ export const postsRepo = {
         }
         return postsWithPaginator
     },
-    async findBlogPosts(blogId: string, sortBy: string = 'createdAt', sortDirection: keyof typeof SortDirections = 'desc', pageNumber: number = 1, pageSize: number = 10): Promise<Paginator<PostViewModel>> {
+    async findBlogPosts(blogId: string, sortBy: keyof  PostViewModel, sortDirection: keyof typeof SortDirections, pageNumber: number, pageSize: number): Promise<Paginator<PostViewModel>> {
         const posts = await postsCollection.find({blogId}, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip((pageNumber - 1) * pageSize).limit(0).toArray()
         const totalCount = posts.length
         const blogPostsWithPaginator: Paginator<PostViewModel> = {
