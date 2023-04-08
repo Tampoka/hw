@@ -17,7 +17,11 @@ export const postsRepo = {
         if (title) {
             filter.title = {$regex: title, $options: 'i'}
         }
-        const posts = await postsCollection.find(filter, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip((pageNumber - 1) * pageSize).limit(0).toArray()
+        let sortDir=-1
+        sortDirection === 'asc' ? sortDir = 1 : sortDir = -1
+        const sortConfig = {[sortBy]: sortDir}
+        // @ts-ignore
+        const posts = await postsCollection.find(filter, {projection: {_id: false}}).sort(sortConfig).skip((pageNumber - 1) * pageSize).limit(0).toArray()
         const totalCount = await postsCollection.countDocuments()
         const postsWithPaginator: Paginator<PostViewModel> = {
             pagesCount: Math.ceil(totalCount / pageSize),
@@ -29,7 +33,11 @@ export const postsRepo = {
         return postsWithPaginator
     },
     async findBlogPosts(blogId: string, sortBy: keyof  PostViewModel, sortDirection: keyof typeof SortDirections, pageNumber: number, pageSize: number): Promise<Paginator<PostViewModel>> {
-        const posts = await postsCollection.find({blogId}, {projection: {_id: false}}).sort({sortBy: SortDirections[sortDirection]}).skip((pageNumber - 1) * pageSize).limit(0).toArray()
+        let sortDir=-1
+        sortDirection === 'asc' ? sortDir = 1 : sortDir = -1
+        const sortConfig = {[sortBy]: sortDir}
+        // @ts-ignore
+        const posts = await postsCollection.find({blogId}, {projection: {_id: false}}).sort(sortConfig).skip((pageNumber - 1) * pageSize).limit(0).toArray()
         const totalCount = posts.length
         const blogPostsWithPaginator: Paginator<PostViewModel> = {
             pagesCount: Math.ceil(totalCount / pageSize),
