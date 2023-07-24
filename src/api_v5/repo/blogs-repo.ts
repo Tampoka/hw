@@ -1,12 +1,7 @@
 import {blogsCollection, BlogViewModel} from '../../db/db';
 import {InsertOneResult} from 'mongodb';
+import {BlogInputModel} from '../domain/blogs-service';
 
-
-export type BlogInputModel = {
-    "name": string
-    "description": string
-    "websiteUrl": string
-}
 export type Paginator<T> = {
     pagesCount?: number
     page?: number

@@ -1,13 +1,6 @@
 import {postsCollection, PostViewModel} from '../../db/db';
 import {InsertOneResult} from 'mongodb';
-
-export type PostInputModel = {
-    "title": string
-    "blogId": string
-    "shortDescription": string
-    "content": string
-}
-
+import {PostInputModel} from '../domain/posts-service';
 
 export const postsRepo = {
     async createPost(newPost: PostViewModel): Promise<InsertOneResult<PostViewModel>> {

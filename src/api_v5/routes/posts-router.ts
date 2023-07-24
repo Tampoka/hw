@@ -19,7 +19,6 @@ postsRouter.get('/', async (req: Request, res: Response) => {
     const sortDirection = req.query.sortDirection??'desc' as (keyof typeof SortDirections)
     const pageNumber = req.query.pageNumber??1
     const pageSize = req.query.pageSize??10
-    // @ts-ignore
     const result = await postsService.findPosts(title, sortBy, sortDirection, Number(pageNumber), Number(pageSize))
     res.status(CodeResponsesEnum.OK_200).send(result)
 })
